@@ -88,7 +88,7 @@ class model:
         else:
          raise ValueError('Unknown target variable')
          
-         self.dataset_out=self.processor.dataset_out
+        self.dataset_out=self.processor.dataset_out
 
     
         #print('after calculating snentence length',type(self.processor.dataset_out))
