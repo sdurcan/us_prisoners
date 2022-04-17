@@ -30,7 +30,7 @@ subset1=prisoners[(prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8]))&
 md=model.model(subset1,violent_variables,model='mlp',pred_classes=2,stand=1,norm=0,ytype="binary", target="sentence_length",train_size=0.2)
 
 #serialise the data for use in colab
-pickle.dump(md.dataset_out,open('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/output/processed_data.csv','wb'))
+pickle.dump(md.dataset_out,open('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/output/processed_data.pkl','wb'))
 
 x_train,y_train,x_test,y_test=md.x_train,md.y_train,md.x_test,md.y_test
 
