@@ -72,7 +72,7 @@ class model:
         #TO DO: rename encodconing as processing maybe?
         self.processor=ds.dataset_processor(self.data_in,self.config,ytype=self.ytype,pred_classes=self.pred_classes,stand=self.stand,norm=self.norm,train_size=self.train_size)
         
-        self.dataset_out=self.processor.dataset_out
+        
 
         
         #print('after processing, before sentence length calculated',type(self.processor.dataset_out))
@@ -87,6 +87,8 @@ class model:
             self.processor.calc_sentence_length()
         else:
          raise ValueError('Unknown target variable')
+         
+         self.dataset_out=self.processor.dataset_out
 
     
         #print('after calculating snentence length',type(self.processor.dataset_out))
