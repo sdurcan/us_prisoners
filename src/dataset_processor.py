@@ -2,20 +2,35 @@ import copy
 import pandas as pd
 from src import var_processor as vp
 from sklearn.model_selection import train_test_split
+from src import sentence_creator as sc
 
 class dataset_processor:
     
-    def __init__(self,dataset,config,pred_classes=2,stand=0,norm=0,model="lr",ytype="cont", target="sentence_length",train_size=0.8):
-
-
+    def __init__(self,dataset,config,target="sentence_length",bi=True,th=10,multi_cat=False,auto_cats=0,bin_edges=[], continuous=False,subset_num=3):
         
-        self.train_size=train_size
-        self.model=model
-        self.ytype=ytype
-        self.target=target
-        self.norm=norm
+        #dataset will usually be a subset of the prisoner data
+        #config will be a dataframe of variables and how to treat them
+        #target is the variable to be predicted. This will inform which 'calc' function is called
+        #bi is wether the target is to be binary
+        #th is the threshold if the target is to be binary
+        #multi_cat is if multiple categories will be used
+        #auto_cats is populated if multiple categories is true and the categories are to be
+        #generated using qcut
+        #bin_edges is populated if multi_cat is true and grouping is to be set mnaully
+        #continuous is true if the target variable is to be continuous
+
         self.dataset_in=copy.deepcopy(dataset)
-        self.pred_classes=pred_classes
+        self.config=config
+        print('Config type at initialisation',type(self.config))
+        self.target=target
+        self.bi=bi
+        self.th=th
+        self.multi_cat=multi_cat
+        self.auto_cats=auto_cats
+        self.bin_edges=bin_edges
+        self.continuous=continuous
+        self.subset_num=subset_num
+
 
         '''
         print('dataset processor before encode dataset in type',type(self.dataset_in))
@@ -24,11 +39,8 @@ class dataset_processor:
         print(self.dataset_in.index[0:10])
         '''
 
-        #this needs to be a dframe
-        self.config=config
-        self.stand=stand
-        #call encode method upon initialising
-        self.encode()
+        #self.calc_sentence()
+        #self.encode_and_scale()
 
         '''
         print('dataset processor after encode',type(self.dataset_out))
@@ -36,12 +48,26 @@ class dataset_processor:
         print(self.dataset_out.index[0:10])
         '''
     
-    def encode(self):
+    def calc_target(self):
+        if self.target=='sentence_length':
+            self.calc_sentence()
+
+    def calc_sentence(self):
+        #call sentence creator object
+        #update self.dataset_out with a new dataframe that has sentence length calculated and dropped other vars
+        #don't need to worry about standardisation and normalisation here
+        update=sc.sentence_creator(self.dataset_in,self.subset_num,self.bi, self.th)
+        self.dataset_out=update.subset
+        
+        return #sc.sentence_creator.new_cols#print names of new columns that have been created
+    
+    def encode_and_scale(self,stand=0,norm=0):
+        #print('Config type at encode and scale',type(self.config))
         for colname in self.config.index:
             #print(colname)                   
             #cell var processor
             #initiates object
-            processed_var=vp.var_processor(self.dataset_in, colname, self.config,stand=self.stand,norm=self.norm)
+            processed_var=vp.var_processor(self.dataset_in, colname, self.config)
             
             #see how many nans there are in this column
             if processed_var.output_col.isna().sum().sum()>0:
@@ -54,59 +80,33 @@ class dataset_processor:
                 self.dataset_out=processed_var.output_col
             
             else:
-            
                 self.dataset_out=self.dataset_out.join(processed_var.output_col)
-
-    def calc_sentence_length(self):
-        #calculate sentence lengths for the prisoner dataset by multiplying days, years, months
-        #because the sentence length columns are continuous, they won't have new colnames like ohe
         
-        #copy frame to see if this reduces errors
-        self.dataset_out=self.dataset_out.copy()
-
-        #single offence single/flat sentence (years: V0402, months: V0403,days: V0404)
-        self.dataset_out['single_offence_length']=(self.dataset_out['V0402']*365)+(self.dataset_out['V0403']*30.5)+(self.dataset_out['V0404'])
-
-        #multiple offences (years: V0413, months: V0414, days: V0415)
-        self.dataset_out['multiple_offence_length']=(self.dataset_out['V0413']*365)+(self.dataset_out['V0414']*30.5)+(self.dataset_out['V0415'])
-        #test['multiple_offence_length']=(test['V0413']*365)+(test['V0414']*30.5)+(test['V0415'])
+        self.join_target()
         
-        #combine both of the above into a continuous value
-        self.dataset_out['combined_offence_length']=(self.dataset_out['single_offence_length']+self.dataset_out['multiple_offence_length'])
-
-        #binary or multiclass sentence length
-        self.dataset_out['binary_sentence_length']=pd.qcut(self.dataset_out['combined_offence_length'], q=self.pred_classes, labels=[i for i in range(self.pred_classes)])
-
+    
+    def join_target(self):
         
-    def get_xy_binary(self):
-        self.y_train=self.train['binary_sentence_length']
-        #drop the target variable and the variables its derived from
-        self.x_train=self.train.drop(columns=["binary_sentence_length","combined_offence_length","multiple_offence_length","single_offence_length","V0402","V0403","V0404","V0413","V0414","V0415"],axis=1)
-        
-        self.y_test=self.test['binary_sentence_length']
-        #drop the target variable and the variables its derived from
-        self.x_test=self.test.drop(columns=["binary_sentence_length","combined_offence_length","multiple_offence_length","single_offence_length","V0402","V0403","V0404","V0413","V0414","V0415"],axis=1)
-
-    def get_xy_cont(self):
-
-        self.y_train=self.train['combined_offence_length']
-        #drop the target variable and the variables its derived from
-        self.x_train=self.train.drop(columns=["binary_sentence_length","combined_offence_length","multiple_offence_length","single_offence_length","V0402","V0403","V0404","V0413","V0414","V0415"],axis=1)
-        
-        self.y_test=self.test['combined_offence_length']
-        #drop the target variable and the variables its derived from
-        self.x_test=self.test.drop(columns=["binary_sentence_length","combined_offence_length","multiple_offence_length","single_offence_length","V0402","V0403","V0404","V0413","V0414","V0415"],axis=1)
-
-
-    def split(self):
-        #split into training and test data before dropping predicted variables
-        self.test, self.train = train_test_split(self.dataset_out, train_size=self.train_size)        
-        #call get_xy to split out data
-        if self.ytype=="binary":
-            self.get_xy_binary()
-            
-        elif self.ytype=="cont":
-            self.get_xy_cont()
-        
+        #then add the target cols that were created
+        #these won't have appeared on the config list and so won't have been processed and added
+    
+        if 'above_thr_inc_life' in list(self.dataset_out.columns):
+            print('its in there')
         else:
-            raise ValueError('Unknown ytype')
+            print('It not in there')
+            
+        self.dataset_out=self.dataset_out.join(self.dataset_in['above_thr_inc_life'])
+
+        if 'above_thr_inc_life' in list(self.dataset_out.columns):
+            print('its in there')
+        else:
+            print('It not in there')
+
+                                               
+                                               
+                                               
+#print('Compare index above thr series with dataset out')
+#print(list(self.dataset_in['above_thr_inc_life'].index[0:10]))
+#print(list(self.dataset_out.index)[0:10])
+#self.dataset_out=self.dataset_out.join(self.dataset_in['above_thr_inc_life'], how = 'left', lsuffix='left', rsuffix='right')
+

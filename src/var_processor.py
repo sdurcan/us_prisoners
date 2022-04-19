@@ -115,7 +115,9 @@ class var_processor:
         self.col=dataset[colname]
         self.dataset = dataset
         self.config=config
-        self.treatment=config['treatment_violent_lr'][colname]
+        #print('Config type at var processor',type(config))
+        self.treatment=config['treatment'][colname]
+        #print(self.treatment)
         #empty nan list to populate
         self.nans=[]
         self.enc=OneHotEncoder(sparse=False)
@@ -127,14 +129,17 @@ class var_processor:
         
     def get_nans(self):
         try:
-            self.nans=list(literal_eval(self.config['nans'][self.colname]))
+            self.nans=list(literal_eval(self.config['dk_ref_miss'][self.colname]))
         except:
-            single_nan=literal_eval(self.config['nans'][self.colname])
+            single_nan=literal_eval(self.config['dk_ref_miss'][self.colname])
             self.nans.append(single_nan)
 
     def process(self):
         #print('Treatment is {}'.format(self.treatment))
         if self.treatment=='one_hot':
+            if self.colname=='V0772':
+                self.prep_nans_states()
+                
             self.prep_nans_one_hot()
             self.one_hot_encode()
             
@@ -197,6 +202,7 @@ class var_processor:
 
     def process_cont_wnans(self):
         
+        
         #-8 means the logic skipped it, so it should be replaced with zero
         #the other nans should have information, so we should be replacing those values intelligently
         self.col_nans_processed=copy.deepcopy(self.col.replace(-8,0))
@@ -225,6 +231,9 @@ class var_processor:
         
         #it's continous so not splitting column- we can just keep the same column name
         self.output_col.name=self.colname
+
+    def prep_nans_states(self):
+        self.col.nans_processed=self.col.replace([-1,-2,np.nan],[self.col.mode,self.col.mode(),self.col.mode()])
     
     def prep_nans_one_hot(self):
         
@@ -280,6 +289,9 @@ class var_processor:
         #CHANGE APPROACH: nan values all goe to -8
             
         self.col_nans_processed.replace(self.nans, -8,inplace=True)
+    
+
+        
 
     
     def one_hot_encode(self):

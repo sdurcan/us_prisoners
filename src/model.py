@@ -22,113 +22,19 @@ import sklearn.metrics
 
 class model:
     
-    def __init__(self,dataset,config_file,model="lg",pred_classes=0,stand=0,norm=0,ytype="lr", target="sentence_length",train_size=0.8):
-        self.data_in=dataset
-        self.config_file=config_file
-        self.model=model
-        self.stand=stand
-        self.norm=norm
-        self.ytype=ytype
+    def __init__(self,X_train, X_test, y_train, y_test,target="sentence_length",model='logr'):
+        self.x_train=X_train
+        self.x_test=X_test
+        self.y_train=y_train
+        self.y_test=y_test
         self.target=target
-        self.train_size=train_size
-        self.pred_classes=pred_classes
-        
-        self.load_variable_config()
-        self.preprocess()
-        
-        
+        self.model=model
+          
         #self.train()
         #self.predict()
         #self.get_scores()
-        
-        #set ytype
-        if self.model=='lr':
-            self.ytype=='cont'
-        elif self.model in ['lg','mlp']:
-            if pred_classes==2:
-                self.ytype=='binary'
-            if pred_classes >2:
-                self.ytype=='multiclass'
-        
-    
-    #TO DO: function that loads the config from a file and puts it into dict form
-    def load_variable_config(self):
-        variables=pd.read_csv(self.config_file, index_col=0)
-        #TO DO: change this to treatment?
-        #depending on target variable, some columns may need to be treated different
-        #for example, some questions are skipped by the survey in certain subsets of the population
-        #then these would be treated as nan
-        
-        if self.target=="sentence_length":
-            self.config=variables[variables['treatment_violent_lr'].isin(['cont_wnans','one_hot','transform'])]
-        else:
-            #A column giving default treatment of columns
-            #if the columns don't have a treatment type then they won't be picked up
-            self.config=variables[variables[self.treatment].isin(['cont_wnans','one_hot','transform'])]
-        
-    def preprocess(self):
-            
-        #initialise dataset_processor object and encode and process variables
-        #TO DO: rename encodconing as processing maybe?
-        self.processor=ds.dataset_processor(self.data_in,self.config,ytype=self.ytype,pred_classes=self.pred_classes,stand=self.stand,norm=self.norm,train_size=self.train_size)
-        
-        
-
-        
-        #print('after processing, before sentence length calculated',type(self.processor.dataset_out))
-        #print('nans',self.processor.dataset_out.isna().sum().sum())
-        #print(len(self.processor.dataset_out.index))
-        #print(self.processor.dataset_out.index[0:10])
-    
-        
-
-        #calculate the sentence length feature to predict
-        if self.target=="sentence_length":
-            self.processor.calc_sentence_length()
-        else:
-         raise ValueError('Unknown target variable')
-         
-        self.dataset_out=self.processor.dataset_out
-
-    
-        #print('after calculating snentence length',type(self.processor.dataset_out))
-        #print('nans',self.processor.dataset_out.isna().sum().sum())
-        #print(len(self.processor.dataset_out.index))
-        #print(self.processor.dataset_out.index[0:10])
-        #print('nans sent length',self.processor.dataset_out['binary_sentence_length'].isna().sum().sum())
-    
-
-        #run split method
-        self.processor.split()
-
-        
-        #print('after splitting',type(self.processor.dataset_out))
-        #print('nans',self.processor.dataset_out.isna().sum().sum())
-        #print(len(self.processor.dataset_out.index))
-        #print(self.processor.dataset_out.index[0:10])
-
-        #print('y vals after split',type(self.processor.dataset_out))
-        #print('nans',self.processor.y_train.isna().sum().sum())
-        #print(len(self.processor.dataset_out.index))
-        #print(self.processor.y_train.index[0:10])
-    
-
-        #split created new attributes- assign them
-        self.x_train, self.y_train, self.x_test, self.y_test=self.processor.x_train, self.processor.y_train, self.processor.x_test, self.processor.y_test
-        
-        '''
-        print('y-train type',type(self.y_train))
-        print(self.y_train.isna().sum().sum())
-        print(len(self.y_train.index))
-        print(self.y_train.index[0:10])
-        
-        print('X-train type',type(self.x_train))
-        print(self.x_train.isna().sum().sum())
-        print(len(self.x_train.index))
-        print(self.x_train.index[0:10])
-        '''
-        
-    def lr(self):
+               
+    def linr(self):
 
         self.reg = LinearRegression().fit(self.x_train, self.y_train)
         #The best possible score is 1.0 and it can be negative
@@ -149,16 +55,13 @@ class model:
 
         return self.y_pred, self.train_score,self.test_score
     
-    
-    def lg(self):
-        self.lgclf = LogisticRegression(random_state=0,max_iter=1000000).fit(self.x_train, self.y_train)
+    def logr(self):
+        self.lgclf = LogisticRegression(random_state=0,max_iter=10000,solver='liblinear').fit(self.x_train, self.y_train)
         
         self.y_pred=self.lgclf.predict(self.x_test)
         self.train_score=self.lgclf.score(self.x_train,self.y_train)
         self.test_score=self.lgclf.score(self.x_test,self.y_test)
-        
 
-        
         return self.y_pred, self.train_score,self.test_score
     
     def mlp(self):
@@ -176,6 +79,7 @@ class model:
         #print(self.train_score)
         #print(self.test_score)
     
+    '''
     def auto_classifier(self):
         automl = autosklearn.classification.AutoSklearnClassifier(time_left_for_this_task=120,per_run_time_limit=30,tmp_folder='/tmp/autosklearn_classification_example_tmp',)
         automl.fit(self.x_train, self.y_train)
@@ -185,6 +89,7 @@ class model:
         self.test_score=sklearn.metrics.accuracy_score(self.y_test, self.y_pred)
         
         print(automl.leaderboard())
+    '''
 
     def get_scores(self):
         print('Train score',round(self.train_score,2))
@@ -192,11 +97,11 @@ class model:
     
     def train(self):
         
-        if self.model=="lr":
-            self.lr()
+        if self.model=="lnr":
+            self.linr()
         
-        elif self.model=="lg":
-            self.lg()
+        elif self.model=="logr":
+            self.logr()
         
         elif self.model=="mlp":
             self.mlp()
