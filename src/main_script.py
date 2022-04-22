@@ -8,16 +8,16 @@ from src import load
 from sklearn.model_selection import train_test_split
 from src import dataset_processor as dp
 import copy
+import utils
 
-prisoners,subset1,subset2,subset3=load.import_prisoners()
+prisoners,subset3=load.import_prisoners()
 subset=subset3
-subset_num=3
 target='sentence_length'
-th=10
-stand=0
+th=20
+stand=1
 norm=0
 test_size=0.2
-Model='mlp'
+Model='logr'
 
 
 #returns a dataframe to pass into dataset_processor.encode_and_scale()
@@ -25,29 +25,33 @@ config=load.import_config()
 #print('Config type after load',type(config))
 
 #inittialise dataset_processor object
-dataset_processor=dp.dataset_processor(subset,config,target="sentence_length",th=th,subset_num=subset_num)
+dataset_processor=dp.dataset_processor(subset,config,target="sentence_length",th=th)
 
-
-#calculate sentence length before doing othe preprocessing
+#calculate sentence length before doing the preprocessing
 dataset_processor.calc_target()
-
-print('thr col len',len(dataset_processor.dataset_out['above_thr_inc_life']))
 
 #can stop scaling of continuous variables by setting stand=0 and norm=0
 dataset_processor.encode_and_scale(stand=stand,norm=norm)
 
 #we can get the encoded dataset from the dataset processor
+target=dataset_processor.target_name
 prepped_subset=dataset_processor.dataset_out
-X=prepped_subset
-y=copy.deepcopy(prepped_subset['above_thr_inc_life'])
-X=X.drop(labels='above_thr_inc_life',axis=1)
 
+#save prepped subset
+#fdir=r'C:\Users\siobh\OneDrive\Masters\Dissertation\us_prisonsers\output/processed_subset'
+fdir='C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/output/processed_subset/'
+prefix='subset'
+utils.name_and_pickle(prepped_subset,fdir,prefix,ext='pkl')
+
+
+X=prepped_subset.drop(labels=target,axis=1)
+y=copy.deepcopy(prepped_subset[target])
 
 #we need to split into test and training data
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=test_size, random_state=25)
 
 #then we create the model
-md=model.model(X_train, X_test, y_train, y_test,target=target,model=Model)
+md=model.model(X_train, X_test, y_train, y_test,model=Model)
 
 #then we get the info about the model
 md.train()

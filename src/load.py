@@ -17,7 +17,7 @@ prisoners=pd.read_csv(r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonse
 violent_variables=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config/violent_variables.csv'
 
 
-def import_prisoners(path="",subset=True):
+def import_prisoners(path="",subset=3):
     if path=="":
         path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/downloaded_package/DS0001/37692-0001-Data.tsv'
     
@@ -26,9 +26,9 @@ def import_prisoners(path="",subset=True):
     
     #need to sort mixed vals in 'V0772' contains state information
     
-    subset1, subset2, subset3=create_sentence_subsets(prisoners)
+    subset=create_sentence_subsets(prisoners,subset=3)
     #37692-0001-Data
-    return prisoners, subset1, subset2, subset3
+    return prisoners, subset
 
 def import_config(path=""):
     
@@ -45,7 +45,7 @@ def import_config(path=""):
     #config=config['treatment'].isin(['cont_wnans','one_hot','transform','binary_wnans'])
     return config
 
-def create_sentence_subsets(prisoners):
+def create_sentence_subsets(prisoners,subset=-3):
     #takes in the dataset of us prisonerss as a dataframe and splits it into three subsets
     
     #filter to top 3 prisoner types and violent crime
@@ -57,20 +57,23 @@ def create_sentence_subsets(prisoners):
     #3 = Inmate NOT incarcerated for a parole or Probation Violation and NOT on parole or probation at time of arrest
     #11 = Probation Violator WITH new sentenced Offenses
     #8 = Parole Violator WITH new sentenced Offenses
-    subset1=prisoners[(prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8]))& ((prisoners['V0401']==6) | (prisoners['V0412']==6))]
+    if subset==1:
+        subset=prisoners[(prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8]))& ((prisoners['V0401']==6) | (prisoners['V0412']==6))]
     
+    elif subset==2:
     #subset2
     #extend the above data set to include those with a flat sentence with indeterminate (life etc)
     #excluding intermittent weekend/nights sentences
-    subset2=prisoners[  (prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8]))  & (  (prisoners['V0401'].isin([1,2,3,4,6])) | (prisoners['V0412'].isin([1,2,3,4,6]))  ) ]
+        subset=prisoners[  (prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8]))  & (  (prisoners['V0401'].isin([1,2,3,4,6])) | (prisoners['V0412'].isin([1,2,3,4,6]))  ) ]
     
+    elif subset==3:
     #subset3
     #extend the above dataset to include prisoners with a range or indeterminate sentence
     #as well as those with a flat sentence of life
     #edit 401 and 412: not in -9-8,-1,4
     #reapce with V0400-1 or 2 OR V0411==1 or 2
-    subset3=prisoners[  (prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8])) & (prisoners['V0400'].isin([1,2]) | prisoners['V0411'].isin([1,2])) & (  (~prisoners['V0401'].isin([-9,-1,4])) | (~prisoners['V0412'].isin([-9,-1,4]))  ) ]
+        subset=prisoners[  (prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8])) & (prisoners['V0400'].isin([1,2]) | prisoners['V0411'].isin([1,2])) & (  (~prisoners['V0401'].isin([-9,-1,4])) | (~prisoners['V0412'].isin([-9,-1,4]))  ) ]
 
-    return subset1,subset2,subset3
+    return subset
 
 

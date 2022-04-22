@@ -22,12 +22,12 @@ import sklearn.metrics
 
 class model:
     
-    def __init__(self,X_train, X_test, y_train, y_test,target="sentence_length",model='logr'):
+    def __init__(self,X_train, X_test, y_train, y_test,model='logr'):
         self.x_train=X_train
         self.x_test=X_test
         self.y_train=y_train
         self.y_test=y_test
-        self.target=target
+        #self.target=target
         self.model=model
           
         #self.train()
@@ -66,7 +66,7 @@ class model:
     
     def mlp(self):
         
-        self.mlp = MLPClassifier(max_iter=100000,solver='adam').fit(self.x_train, self.y_train)
+        self.mlp = MLPClassifier(max_iter=100000,solver='adam',alpha= 3).fit(self.x_train, self.y_train)
         self.y_pred=self.mlp.predict(self.x_test)
         self.train_score=self.mlp.score(self.x_train,self.y_train)
         self.test_score=self.mlp.score(self.x_test,self.y_test)
@@ -120,6 +120,7 @@ class model:
 
             #self.y_pred=self.lr()[0]
     
+    '''
     def make_plot(self):
         #up until now we have propogated indexes from original full file of 25k through each copy or slice of data
         #this is to make sure correct rows are being joined
@@ -138,5 +139,6 @@ class model:
         plt.legend()
         #plt.ylim(bottom=0,top=0.0002)
         plt.show()
+    '''
     
     
