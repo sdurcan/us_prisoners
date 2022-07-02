@@ -7,6 +7,7 @@ Created on Mon Apr 18 14:00:23 2022
 import pandas as pd
 import numpy as np
 import copy
+import pickle
 
 
 #import survey of prison inmates
@@ -26,11 +27,11 @@ def import_prisoners(path="",subset=3):
     
     #need to sort mixed vals in 'V0772' contains state information
     
-    subset=create_sentence_subsets(prisoners,subset=3)
+    subset=create_sentence_subsets(prisoners,subset=subset)
     #37692-0001-Data
     return prisoners, subset
 
-def import_config(path=""):
+def import_starter_config(path=""):
     
     #violent variables
     path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config/violent_variables.csv'
@@ -41,11 +42,12 @@ def import_config(path=""):
     #depending on target variable, some columns may need to be treated different
     #for example, some questions are skipped by the survey in certain subsets of the population
     #then these would be treated as nan
-    config=variables[variables['treatment'].isin(['cont_wnans','one_hot','transform','binary_wnans'])]
+    #changed approach, now have a column about wether to include these
+    config=variables[variables['include_violent_sent_predictor']==1]
     #config=config['treatment'].isin(['cont_wnans','one_hot','transform','binary_wnans'])
     return config
 
-def create_sentence_subsets(prisoners,subset=-3):
+def create_sentence_subsets(prisoners,subset):
     #takes in the dataset of us prisonerss as a dataframe and splits it into three subsets
     
     #filter to top 3 prisoner types and violent crime
@@ -74,6 +76,23 @@ def create_sentence_subsets(prisoners,subset=-3):
     #reapce with V0400-1 or 2 OR V0411==1 or 2
         subset=prisoners[  (prisoners['V0062']==1) & (prisoners['V0063'].isin([3,11,8])) & (prisoners['V0400'].isin([1,2]) | prisoners['V0411'].isin([1,2])) & (  (~prisoners['V0401'].isin([-9,-1,4])) | (~prisoners['V0412'].isin([-9,-1,4]))  ) ]
 
+    elif subset==4:
+        subset=prisoners[  (prisoners['V0062']==1) ]
+        
     return subset
 
+def offense_variables(path=""):
+    
+    if path=="":
+        path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config/offense_variables'
+    
+    offense_variables=pickle.load( open( path, "rb" ) )
+    return offense_variables
 
+def victim_injuries(path=""):
+    
+    if path=="":
+        path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config/victim_injuries.pkl'
+    
+    victim_injuries=pickle.load( open( path, "rb" ) )
+    return victim_injuries

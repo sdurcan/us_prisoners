@@ -7,7 +7,8 @@ Created on Tue Mar 29 18:59:35 2022
 
 from sklearn.linear_model import LinearRegression
 import pandas as pd
-from src import dataset_processor as ds
+#from src import dataset_processor as ds
+import dataset_processor as ds
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -17,6 +18,11 @@ from sklearn.datasets import make_classification
 from pprint import pprint
 import sklearn.datasets
 import sklearn.metrics
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.ensemble import RandomForestClassifier
 
 #import autosklearn.classification
 
@@ -49,14 +55,13 @@ class model:
         self.train_score=self.reg.score(self.x_train,self.y_train)
         self.make_plot()
         
-        
         print(self.train_score)
         print(self.test_score)
 
         return self.y_pred, self.train_score,self.test_score
     
     def logr(self):
-        self.lgclf = LogisticRegression(random_state=0,max_iter=10000,solver='liblinear').fit(self.x_train, self.y_train)
+        self.lgclf = LogisticRegression(random_state=225,max_iter=100000,solver='liblinear',penalty='l1').fit(self.x_train, self.y_train)
         
         self.y_pred=self.lgclf.predict(self.x_test)
         self.train_score=self.lgclf.score(self.x_train,self.y_train)
@@ -78,6 +83,22 @@ class model:
         
         #print(self.train_score)
         #print(self.test_score)
+    
+    def rf(self):
+        # make predictions using random forest for classification
+
+        # define dataset
+
+        # define the model
+        self.rf = RandomForestClassifier()
+        # fit the model on the whole dataset
+        self.rf.fit(self.x_train, self.y_train)
+
+        # evaluate the model
+        cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+        n_scores = cross_val_score(self.rf, self.x_train, self.y_train, scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
+        # report performance
+        print('Rf Accuracy: %.3f (%.3f)' % (np.mean(n_scores), np.std(n_scores)))
     
     '''
     def auto_classifier(self):
@@ -105,6 +126,9 @@ class model:
         
         elif self.model=="mlp":
             self.mlp()
+        
+        elif self.model=="rf":
+            self.rf()
         
         elif self.model=='auto_class':
             self.auto_classifier()
@@ -141,4 +165,30 @@ class model:
         plt.show()
     '''
     
+    def get_weights(self):
+        #save the coefficients of the model
+        importance=list(self.lgclf.coef_[0])
+        #need absolute values to assess importance
+        imp=list(importance)
+        imp=[abs(ele) for ele in importance]
+        classes=[np.sign(ele) for ele in importance]
+        fnames=self.x_train.columns
+        f_weights=tuple(zip(fnames, imp, classes))
+
+        self.f_weights=list(f_weights)
+
+        self.f_weights.sort(key=lambda x:x[1])
+        
+        self.f_pos=[[feature,weight] for (feature,weight,sign) in f_weights if sign==1]
+
+        self.f_neg=[[feature,weight] for (feature,weight,sign) in f_weights if sign==-1]
+        
+        '''
+        for i,v in enumerate(f_weights):
+        	print(v)
+        # plot feature importance
+        pyplot.bar([x for x in range(len(importance))], importance)
+        pyplot.show()
+        '''
+
     
