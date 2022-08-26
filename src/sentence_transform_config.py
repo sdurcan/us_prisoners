@@ -57,10 +57,11 @@ dmys = {'single_range_min': single_range_min, 'single_range_max': single_range_m
              'multi_flat': multi_flat, 'multi_range_min': multi_range_min, 'multi_range_max': multi_range_max,
              'multi2_range_flat': multi2_range_flat, 'multi2_range_min': multi2_range_min, 'multi2_range_max': multi2_range_max}
 
+
+
+'''
 with open("sentence_length_variables","wb") as f:
     pickle.dump(dmys,f )
-
-
 
 #CJ14- Inmate Type 1
 #NCRP Codes V0140-V0144
@@ -154,6 +155,7 @@ offenses_config={'ctrl_off_code':{'enc_scale':'one_hot','description':'Controlli
 #CJB3 Type For what offenses were you on probation from a court? 1 Parole 2 Probation V0316
 #CJB6 Type for what new offenses were you sentenced? 1 Parole 2 Probation V0340
 #CJB9 Type For what new offenses were you arrested or charged? 1 Parole violation 2 Probation violation V0364
+
 parole_probation=['V0214','V0078','V0081','V0108','V0134','V0160','V0162','V0188','V0214','V0240','V0288','V0316','V0340']
 for variable in parole_probation:
     vals=prisoners[variable].value_counts(dropna=False).index
@@ -170,3 +172,4 @@ for variable in parole_probation:
 
 prisoners['probation']=prisoners[probation].sum(axis=1)
 prisoners['parole']=prisoners[parole].sum(axis=1)
+'''

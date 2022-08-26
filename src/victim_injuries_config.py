@@ -4,7 +4,7 @@ Created on Sat Jun 25 16:46:12 2022
 
 @author: siobh
 """
-import utils
+
 #what do do about DK/REF injuries
 #check child victim fields
 #V0620 not physically injured
@@ -64,6 +64,7 @@ victim_injuries={\
     
 'teeth_chipped':['V0594','V0502'] }  }
 
+'''
 utils.name_and_pickle(victim_injuries,'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config','victim_injuries',ext='pkl')
 
 #SINGLE VICTIM
@@ -92,5 +93,12 @@ utils.name_and_pickle(victim_injuries,'C:/Users/siobh/OneDrive/Masters/Dissertat
 #'rape_sexual_assault' V0587==1, V0495==1
 # 'victim_died'  V0587==2, V0495==2
 
-
+def victim_injuries(path=""):
+    
+    if path=="":
+        path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/processing_config/victim_injuries.pkl'
+    
+    victim_injuries=pickle.load( open( path, "rb" ) )
+    return victim_injuries
+'''
 

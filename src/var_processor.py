@@ -12,7 +12,7 @@ from ast import literal_eval
 import copy
 import pandas as pd
 import warnings
-
+from sklearn.preprocessing import OrdinalEncoder
 #take a pandas series column and a config file defining processing steps and processes it
 class var_processor:
     
@@ -107,12 +107,11 @@ class var_processor:
     #colname- string
     #dataset- pandas dataframe
     
-    def __init__(self,dataset, colname, config,stand=0,norm=0,apply_enc_scale=1,target='sentence_length'):
-        self.stand=stand
-        self.target=target
-        self.norm=norm
+    def __init__(self,dataset, colname, config,enc=1,scale=1,impute=1):
         self.colname = colname
-        self.apply_enc_scale=apply_enc_scale
+        self.enc=enc
+        self.scale=scale
+        self.impute=impute
         #print(colname)
         self.col=dataset[colname]
         #the dataset_in (unprocessed is what's passed in)
@@ -124,7 +123,7 @@ class var_processor:
         #empty nan list to populate
         self.dkref=[]
         self.missing=[]
-        self.enc=OneHotEncoder(sparse=False)
+        
         self.output_categories=[]        
 
         self.get_dkref()
@@ -133,9 +132,10 @@ class var_processor:
         
         #run some checks on the encoding and raise warnings if needed
         if self.enc_scale=="one_hot":
-            #self.check_encoded_values()
-            self.check_output()
-            self.check_if_binary(self.output_col,self.colname)
+            if self.enc==1:
+                #self.check_encoded_values()
+                self.check_output()
+                self.check_if_binary(self.output_col,self.colname)
 
     
     #TODO: improve this so that literal_eval is not used as it's bad practice
@@ -161,7 +161,7 @@ class var_processor:
                 single_missing=literal_eval(self.config['missing'][self.colname])
                 self.missing.append(single_missing)
 
-    def process(self,scaling=0):
+    def process(self):
         if self.enc_scale =='one_hot':
             if self.colname=='V0772':
                 self.prep_nans_states()
@@ -169,11 +169,22 @@ class var_processor:
             else:
                 self.prep_nans_cat()
             
-            if self.apply_enc_scale==1:
+            if self.enc==1:
                 self.one_hot_encode()
+            
+            else: 
+                self.output_col=self.col_nans_processed
             
         elif self.enc_scale=='scale':
             self.process_cont_wnans()
+        
+        elif self.enc_scale=='ordinal':
+            self.prep_nans_cat()
+            
+            if self.enc==1:
+                self.ordinal_encode()
+            else: 
+                self.output_col=self.col_nans_processed
         
         elif self.enc_scale=="none":
             self.output_col=self.dataset[self.colname]
@@ -196,60 +207,105 @@ class var_processor:
         #instead of -8, skips sometimes have np.nan so we want to make these zeroes
         self.col_nans_processed=self.col_nans_processed.replace(np.nan,0)
         
-        #then we need to identify the don't know and refused values for this column and replace them with meaningful values
-        self.col_nans_processed=self.col_nans_processed.replace(self.dkref, round(self.col_nans_processed.mean()))
+        if self.impute==1:
+            if self.colname=='ctrl_count':
+                #print(self.col_nans_processed.value_counts(dropna=False))
+                self.col_nans_processed=self.col_nans_processed.replace(self.dkref,0)
+            else:
+                #identify the don't know and refused values for this column and replace them with meaningful values
+                self.col_nans_processed=self.col_nans_processed.replace(self.dkref, round(self.col_nans_processed.mean()))
+        else:
+            #otherwise make these np.nan to identify them as missing values
+            self.col_nans_processed=self.col_nans_processed.replace(self.dkref, np.nan)
             
         self.output_col=copy.deepcopy(self.col_nans_processed)
         
         #it's continous so not splitting column- we can just keep the same column name
         self.output_col.name=self.colname
         
-        if self.apply_enc_scale==1:
+        if self.scale==1:
             self.output_col=self.min_max_scaling()
-            #TODO: apply scaling, which should replace output_col with scaled values
-            pass
+           
 
     def prep_nans_states(self):
-        #replace DK/REF with most common state
-        #need to have -1 and -2 as strings because this variable stores all values as strings
-        self.col_nans_processed=self.col.replace(['-1','-2',np.nan],[self.col.mode(),self.col.mode(),self.col.mode()])
+        #separate function to prep_nans_cat because need to have -1 and -2 as strings 
+        #because this variable stores all values as strings
+        #replace DK/REF with most common state if impute=1, or put as nan if impute=0
+
+        if self.impute==1:
+            self.col_nans_processed=self.col.replace(['-1','-2',np.nan],[self.col.mode(),self.col.mode(),self.col.mode()])
+        if self.impute==0:
+            self.col_nans_processed=self.col.replace(['-1','-2',np.nan],[np.nan,np.nan,'-8'])
+            
             
     def prep_nans_cat(self):
         """
         ####1) Replacing np.nan
         #If skips are allowed (-8,-99 Excluded from nan list), replace np.nan with -8 (representing a skip)
-        #They will get their own category when encoded
+        #Need to have a value because it's not a missing value, it's a skip. They will get their own category when encoded
         #Empty strings are converted to np.nan so will be included in this
 
-        ####2) Replace nan values defined in config file
+        ####2) Replace missing values (dk_ref values defined in config file
         #then replace the values given as nans for this variable with as na/empty value
         #they will then be given their own category by the encoder
         #if -8 is nan (i.e. there should be no skip possible on the question) it will be in the nan list
-
 
         """
         ###1) Replacing missing, blank and np.nan values
         #for all the ones that are skipped or empty data put in a -8
         #They will get their own category when encoded
         #Empty strings are converted to np.nan so will be included in this
+        #Where a column has been derived and added to config, nans should still be replaced with -8
+        #Unless the 'missing' values have been set, they will remain
         self.col_nans_processed=self.col.replace(np.nan,-8)
         self.col_nans_processed.replace(self.missing,-8,inplace=True)
 
       
-        #for dk and ref value as defined in the file, replace these with a meaningful value
+        #for dk and ref value as defined in the file- these are missing values
+        #if impute=1, replace these with a meaningful value
+        #if impute=0, replace with np.nan (will be passed to scikit learn)
         #pandas is asking for replace list to be the same length as list of values to replace
-        replacements=[self.col.mode() for val in self.dkref]
-        self.col_nans_processed.replace(self.dkref,replacements,inplace=True)
+        if self.impute==1:
+            replacements=[self.col.mode() for val in self.dkref]
+            self.col_nans_processed.replace(self.dkref,replacements,inplace=True)
         
-        self.output_col=copy.deepcopy(self.col_nans_processed)
+        if self.impute==0:
+            replacements=[np.nan for val in self.dkref]
+            self.col_nans_processed.replace(self.dkref,replacements,inplace=True)
+            
+        
+        #self.output_col=copy.deepcopy(self.col_nans_processed)
     
+    def ordinal_encode(self):
+        
+        ord_encoder = OrdinalEncoder()
+        #get the index
+        index=self.col_nans_processed.index
+        self.output_col=self.col_nans_processed.to_numpy()
+        self.output_col=self.output_col.reshape(-1, 1)
+
+        self.output_col = ord_encoder.fit_transform(self.output_col)
+
+        self.output_col=self.output_col.reshape(-1, 1)
+        #back to df for joining
+        self.output_col=pd.DataFrame(self.output_col)
+        #put name back on to match
+
 
         
-    
+
+        #put index back on to match
+        self.output_col.index=index
+        self.output_col.rename(columns={0:self.colname},inplace=True)
+        #print(self.output_col.value_counts(dropna=False))
+
+
+ 
+
+
     def one_hot_encode(self):
         """One hot encode categorical data using sklearn one hot encoder.
-        As nans are replaced with new values, can do this with all values
-        and nans will get own category"""
+       To avoid 'dummy variable trap', the encoder will drop -8"""
         
         #take the index to be appended back later
         #this is needed for joining dataframes
@@ -259,34 +315,45 @@ class var_processor:
         #df.values array gives an np array that can be reshaped
         self.prepped_col_reshaped=self.col_nans_processed.values.reshape(-1, 1)
         
+
+        self.enc=OneHotEncoder(sparse=False,drop='if_binary')
+ 
+        
         #call fit, but not fit transform
         #categories can be extracted
         self.enc_fitted = self.enc.fit(self.prepped_col_reshaped)
         
         #save onehot categories
+        #TODO: remove -8
+
         self.found_categories=self.enc_fitted.categories_
 
+            
         #need to do transform x to return the array from the encoder object
         self.onehot_array=self.enc_fitted.transform(self.prepped_col_reshaped)
-        
+ 
         #create readable output categories
         output_categories=[]
-        for category in self.found_categories:
-            for item in category:
-                if self.colname=='V0772':
-                    output_categories.append(f"{self.colname}-{str(item)}")
-                elif self.colname=='ctrl_count':
-                    output_categories.append(f"{self.colname}-{str(item)}")
-                else:
-                    output_categories.append(f"{self.colname}-{str(int(item))}")
-        #print(output_categories)
-        
+        for item in self.enc.get_feature_names_out():
+                output_categories.append(f"{self.colname}-{str(item)}")
+     
         self.output_categories=output_categories
         #change onehot array to pandas series and reapply orig_index for join
         self.output_col=pd.DataFrame(self.onehot_array, columns=self.output_categories, index=orig_index)
-    
-    #def dense_codes():
         
+        if len(self.output_col.columns) > 1:
+            
+            #print(self.output_col.columns)
+            #print('More than one output col',f"{self.colname}-x0_-8.0")
+            
+            if 'x0_-8.0' in self.enc.get_feature_names_out():
+            #if 'f"{self.colname}-x0_-8.0' in self.output_col.columns:
+                
+                self.output_col.drop(f"{self.colname}-x0_-8.0",axis=1,inplace=True)
+                #print('Dropped a column')
+                
+            #print(self.output_col.columns)
+            
     def check_encoded_values(self):
         """Checks that the count in the encoded column corresponding to each category in the original column
         is greater than or equal to the value count in the original column. Because of don't know, refuse
@@ -326,8 +393,8 @@ class var_processor:
         #the columns should sum to 1
         if self.enc_scale=='one_hot':
             newcols= self.encoded_colnames(self.output_col,self.colname)
-            if self.check_rows_sum_1(self.output_col,newcols)==False:
-                print(self.colname,'encoded columns do not sum to 1')
+           # if self.check_rows_sum_1(self.output_col,newcols)==False:
+                #print(self.colname,'encoded columns do not sum to 1')
             
     @staticmethod
     def encoded_colnames(dataset,orig_colname):

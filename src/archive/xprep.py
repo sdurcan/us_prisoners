@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jul 24 13:11:02 2022
+
+@author: siobh
+"""
+
+
+from src import load
+import copy
+from src import dataset_processor
+import numpy as np
+
+def min_max_scaling(series):
+    return (series - series.min()) / (series.max() - series.min())
+
+prisoners,subset=load.import_prisoners(subset=3)
+
+dp=dataset_processor.dataset_processor(subset)
+copy_config=copy.deepcopy(dp.config)
+years=copy_config.loc[ copy_config['year']==1]
+
+scaled_years=subset[years.index]
+
+for year in years.index:
+    scaled_years[f'{year}_mm_wnans']=min_max_scaling(scaled_years[year])
+    scaled_years[f'{year}_prepped']=scaled_years[year]
+    scaled_years[f'{year}_prepped'].replace(-8,0,inplace=True)
+    scaled_years[f'{year}_prepped'].replace(np.nan,0,inplace=True)
+    scaled_years[f'{year}_prepped'].replace([-9,-2,-1],round(scaled_years[year].mean()))
+    scaled_years[f'{year}prepped_mm_scaled']=min_max_scaling(scaled_years[f'{year}_prepped'])
+    
+    
+#y='V0362'
+#y_df=scaled_years[[f'{y}',f'{y}prepped_mm_scaled',f'{y}_prepped']]
+    
+    
+'''
+scaled values correspond to the below year values
+
+V0130<=0.994
+V0130<=0.994 & V0338<=0.994
+
+v0130==1 (2016)
+V0130<=0.999 (2015, 2014)
+V0130<=0.997 (2016)
+V0130<=0.998 (2013, 2012)
+v0130==0.997 (2011)
+
+V0362<=0.997 (2011, 2010)
+V0286<=0.997 (2011, 2010)
+V0362<=0.998 (2013,2012)
+V0130<=0.994 (2005,2004)
+V0286<=0.994 (2005,2004)
+V0917<=0.993 (2002,2003)
+V0262<=0.995 (2007,2006)
+V0338<=0.995 (2007)
+V0338<=0.992 (2001)
+V0130<=0.87 (0, np.nan), no criminal justice status
+V0779<=0.25
+'''
+
+#V0495, V0587 and V0069 both contin violent offense information but are used at separate points in the tree
+#ctrl off 70
+#ctrl off 90
+#ctrl off 120
+#off 1 code 10
+#V0461- sex offenders included in sentence
+#V0888 if anyone that was shot died
+#V0887-1 Yes, someone was shot during offense
+#V0891-2- No, weapon was not used to get away
+#V0459-1- yes, sentence includes mandatory drug testing
+#V0779- number of weapons carried during offense
+
+

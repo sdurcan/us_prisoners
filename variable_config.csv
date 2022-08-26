@@ -1,0 +1,565 @@
+variable,description,include_violent_sent_predictor,reason for not including,data_type,enc_scale,dk_ref,missing,,protected characteristic,further pre processing,feeds_mutual_info,exc_reason_violent,year,prelim_5
+RV0002,age bracket,1,,cat_wnans,ordinal,98,99,,0,,,,,1
+V0022,Marital status,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,,,,,1
+V0023,served in US armed forces,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,binary_with_na,,,,1
+V0055Y,arrest year,1,,cont_wnans,scale,"-9, -2,-1",999999,,0,,,,1,1
+V0062,controlling offense type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,,offense,,,1
+V0063,inmate type,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,0,,,,,1
+V0130,year arrested- 'standard' inmate,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,collapse year arrested,,,1,1
+V0314,"probation violators, if previous probation was a stand alone sentence",1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0315,probation violators- if original was part of split sentence,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0423,Total sentence ever suspended,0,unclear how this relates to sentenced time,,,,,,,,,,,
+V0450,Sentence include court costs/fees (upcoded),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0451,Sentence include fines (upcoded),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0452,Sentence include restitution to victim (upcoded),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0453,Sentence include any other type of fee/payment (upcoded),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0458,Sentence include community service,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0459,Does sentence include mandatory drug testing,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,restrictions,,,1
+V0460,Does sentence include drug/alcohol treatment options,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,restrictions,,,1
+V0461,Does sentence include sex offenders treatment program,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,restrictions,,,1
+V0462,Does sentence include psychiatric/psychological counseling/treatment,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,restrictions,,,1
+V0463,Does sentence include other special conditions/restrictions,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,restrictions,,,1
+V0478,Act alone/received help during offense,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V0479,how many people helped,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0480,one or more victim,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,,,,,1
+V0772,state where living at time of arrest,1,,cat_wnans,one_hot,"-1,-2",-8,,0,,,,,1
+V0774,where controlling offense took place (with victim) (upcoded),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse where offense took place,,,,1
+V0776,where controlling offense happened (no victim),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse where offense took place,,,,1
+V0778,"Did you carry, possess or use a weapon during the offense",1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0779,# weapons carried during offense,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0780,specify weapon- firearm,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0781,specify weapon- toy or bb gun,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0782,specify weapon- knife,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0783,specify weapon- other sharp object,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0784,specify weapon- blunt object,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0785,specify weapon- another weapon,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0786,specify weapon- DK/REF,1,,cat_wnans,one_hot,"8,9","9,-8",,0,binary_with_na,,,,1
+V0795,#item flag weapons carried during offense,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0796,# firearms carreid in offense,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V0797,one or more firearm carried during offense,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0810,stole firearm,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0884,planned to use firearm during offense,1,,cat_wnans,one_hot,-9,"-8,99",,0,binary_with_na,,,,1
+V0885,did you show or point the firearm during the offense,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0886,was the firarm fired during offense,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0887,was anyone shot during offense,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0888,did any person that was shot die,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0889,weapon was used to scare someone,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0890,weapon was used to kill someone,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0891,weapon used to get away,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0892,weapon used to protect yourself,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0893,weapon used in any other way,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0899,age at first arrest for any offense,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0900,ever arrested for a violent offense,0,using times arrested and times served time for any offense,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,,,,1
+V0901,ever senteced/served for a violent offense,0,using times arrested and times served time for any offense,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V0902,# times sentenced/served for violent offense,0,using times arrested and times served time for any offense,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0903,ever arrested for propery  offense,0,using times arrested and times served time for any offense,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0904,sentenced/served time for property offense,0,using times arrested and times served time for any offense,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V0905,# times sentenced/serve time for property offense,0,using times arrested and times served time for any offense,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0906,ever arrested for drug offense,0,using times arrested and times served time for any offense,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0907,ever senteced/served for a drug offense,0,using times arrested and times served time for any offense,,,,,,,,,,,
+V0908,#times sentenced/served for drug offense,0,using times arrested and times served time for any offense,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0909,# times arrested for any offense,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0910,# times placed on probation,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0911,# times sentenced/served in juvenile facility,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0912,# times sentenced/served in local/county jail,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0913,age first admitted to local/county jail,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0914,ever sentenced/served in state or federal prison,0,using # of times,,,,,,,,,,,
+V0915,# times sentenced/served in state/federal prison],1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0917,date first admitted to prison (year),1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,1,1
+V0918,age first admitted to state/federal prison,1,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0919,date first admitted to prison (season),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0923,if others describe offenders race as white,0,using other race variables,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse race privelidged or not,,,,1
+V0935,highest education attained before prison,0,trying to keep vars down,,,,,,,,,,,
+V0936,completed the last year of education before prison,0,trying to keep vars down,,,,,,,,,,,
+V0940,GED or high school diploma,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0942,ADD,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0943,dyslexic,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0944,Ever enrolled in special ed,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0945,Born in US or other country,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0950,also a US citizen,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0951,#years lived in US,1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
+V0952,where living 30 days before arrest answer 1,0,trying to keep vars down,,,,,,,,,,,
+V0953,where living 30 days before arrest answer 2,0,trying to keep vars down,,,,,,,,,,,
+V0954,where living 30 days before arrest answer 3,0,trying to keep vars down,,,,,,,,,,,
+V0955,where living 30 days before arrest answer 4,0,trying to keep vars down,,,,,,,,,,,
+V0956,where living 30 days before arrest answer 5,0,trying to keep vars down,,,,,,,,,,,
+V0957,where living 30 days before arrest answer 6,0,trying to keep vars down,,,,,,,,,,,
+V0958,where living 30 days before arrest answer 7,0,trying to keep vars down,,,,,,,,,,,
+V0959,where living 30 days before arrest answer 8,0,trying to keep vars down,,,,,,,,,,,
+V0960,where living 30 days before arrest answer 9,0,trying to keep vars down,,,,,,,,,,,
+V0961,Homeless 12 months before arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,
+V0962,In correctional facility for entire 30 days before arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,
+V0963,# people living with at time of arrest,0,trying to keep vars down,,,,,,,,,,,
+V0983,# children,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1005,living with any children at time of arrest,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1008,#children living with at the time of arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1080,# different jobs 30 days before arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1082,were any jobs/business full time work,0,using number of jobs 30 days before arrest,,,,,,,,,,,
+V1083,were any part time work,0,using number of jobs 30 days before arrest,,,,,,,,,,,
+V1084,were any ocassional work,0,using number of jobs 30 days before arrest,,,,,,,,,,,
+V1086,looking for work 30 days before arrest,0,using number of jobs 30 days before arrest,,,,,,,,,,,
+V1145,range of income for 30 days before arrest,1,,cont_wnans,ordinal,,,,,,,,,
+V1146,proportion of income from illegal activity before arrest,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1147,do they provide half or more of the financial support for the household?,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1165,homeless before 18,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1200,Hospitalised 12 months before arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1201,Taking a prescribed medication at time of arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1252,Age first started smoking regularly,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1208,height (feet),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,sentence_length,,,,1
+V1209,height (inches),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
+V1210,weight (pounds),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
+V1211,sex assigned at birth,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V1212,self-described sex identity,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse into cis hetero or not,,,,1
+V1213,sexual orientation,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse into cis hetero or not,,,,1
+V1326,under drugs at time of arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
+V1952,White,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,,,1
+V0775,where controlling offense took place (with victim) (original),0,needs to be combined with no victim,,,,,,,,,,,
+V0777,where controlling offense took place (no victim),0,needs to be combined with victim,,,,,,,,,,,
+V0937,ever received a GED,0,doesn't predict sentence length; could have received in prison,,,,,,,,,,,
+V1166,in foster home before 18,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1168,who offender lived with before 18 (upcoded),0,trying to keep vars down,,ordinal,,,,,,,,,
+V1170,welfare/public assistance before 18,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1171,lived in public housing before 18,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1172,father ever been sentenced or serve time,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1173,offenders month ever served time,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+,Regularity of smoking 30 days before arrest,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1264,age first drank an alcoholic beverage,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1267,drinking at time of offense,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1268,spent time binge drinking in 12 months before admission,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1138,in a facility 12 months prior to admission,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1369,repeated problems with law due to drug use in 12 months before arrest,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V0001,respondent ID,0,admin var,,,,,,,,,,0,1
+V001B,supressed respondent ID,0,admin var,,,,,,,,,,,1
+V0002,interview date,0,admin var,,,,,,,,,,,
+V0003,completed interview flag,0,admin var,,,,,,,,,,,
+V0004,interview begin flag,0,admin var,,,,,,,,,,,
+V0005,interview consent type,0,admin var,,,,,,,,,,,
+V0006,is incentive being offerred,0,admin var,,,,,,,,,,,
+V0007,IS section end,0,admin var,,,,,,,,,,,
+V0008,demo begin,0,admin var,,,,,,,,,,,
+V0009,Date of birth (month),0,supressed,,,,,,,,,,,
+V0010,DOB (day),0,supressed,,,,,,,,,,,
+V0011,DOB (year),0,supressed,,,,,,,,,,,
+V0012,check calculated year,0,Doesn't influence sentencing,,,,,,,,,,,
+V0013,calc year (if calc year incorrect),0,Doesn't influence sentencing,,,,,,,,,,,
+V0014,"18 years or older (1=Yes, 2=No)",0,Doesn't influence sentencing,,,,,,,,,,,
+V0015,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0016,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0017,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0018,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0019,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0020,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0020,original offender race 1/6,0,upcoded into race variables,,,,,,,,,,,
+V0024,Served in Army,0,starting with less variables,,,,,,,,,,,
+V0025,Served in Navy,0,starting with less variables,,,,,,,,,,,
+V0026,Served in Marine Corps,0,starting with less variables,,,,,,,,,,,
+V0027,Served in Air Force,0,starting with less variables,,,,,,,,,,,
+V0028,Served in Coast Guard,0,starting with less variables,,,,,,,,,,,
+V0029,Served in DK/REF,0,starting with less variables,,,,,,,,,,,
+V0030,Served in Item Flag,0,starting with less variables,,,,,,,,,,,
+V0031,year of entry into armed forces,0,starting with less variables,,,,,,,,,,,
+V0032,year last discharged,0,starting with less variables,,,,,,,,,,,
+V0033,total time in armed forces (y),0,starting with less variables,,,,,,,,,,,
+V0034,total time in armed forces (M),0,starting with less variables,,,,,,,,,,,
+V0035,total time in armed forces (weeks),0,starting with less variables,,,,,,,,,,,
+V0036,total time in armed forces (days),0,starting with less variables,,,,,,,,,,,
+V0037,ever served in combat,0,starting with less variables,,,,,,,,,,,
+V0038,ever see combat,0,starting with less variables,,,,,,,,,,,
+V0039,in WWII,0,starting with less variables,,,,,,,,,,,
+V0040,in Korean conflict,0,starting with less variables,,,,,,,,,,,
+V0041,in Vietnam War,0,starting with less variables,,,,,,,,,,,
+V0042,in Persian Gulf War,0,starting with less variables,,,,,,,,,,,
+V0043,in Afghanistan,0,starting with less variables,,,,,,,,,,,
+V0044,in Iraq,0,starting with less variables,,,,,,,,,,,
+V0045,in other military operation,0,starting with less variables,,,,,,,,,,,
+V0046,exposed to dying/wounded whilst serving in armed forces,0,starting with less variables,,,,,,,,,,,
+V0047,ever been a POW,0,starting with less variables,,,,,,,,,,,
+V0048,exposed to environmental hazards,0,starting with less variables,,,,,,,,,,,
+V0049,injury due to training/combat,0,starting with less variables,,,,,,,,,,,
+V0050,type of discharge from us armed forces,0,starting with less variables,,,,,,,,,,,
+V0051,type of discharge if other,0,starting with less variables,,,,,,,,,,,
+V0052,type of medical discharge,0,starting with less variables,,,,,,,,,,,
+V0053,type of psychological discharge,0,starting with less variables,,,,,,,,,,,
+V0054,end Demo section,0,admin variable,,,,,,,,,,,
+V0056,admission date,0,supressed,,,,,,,,,,,
+V0058,offense 2 name (suppressed),0,supressed,,,,,,,,,,,
+V0059,offense 3 name (suppressed),0,supressed,,,,,,,,,,,
+V0060,offense 4 name (suppressed),0,supressed,,,,,,,,,,,
+V0061,offense 5  name (suppressed),0,supressed,,,,,,,,,,,
+V0064,current offense 1 type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,count other violent and drug crimes being charged for,offense,,,1
+V0065,current offense 2 type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,count other violent and drug crimes being charged for,offense,,,1
+V0066,current offense 3 type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,count other violent and drug crimes being charged for,offense,,,1
+V0067,current offense 4 type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,count other violent and drug crimes being charged for,offense,,,1
+V0068,current offense 5 type,0,used to derive other variables,cat_wnans,one_hot,"-9, -2,-1",-8,,0,count other violent and drug crimes being charged for,offense,,,1
+V0069,type of violent offense (for controlling offense?),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0070,Criminal Justice begin flag,0,admin variable,,,,,,,,,,,
+V0071,upcoded for what authority being helped,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0072,original for what authority being held,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0073,sentenced to serve time,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0074,awaiting trial/sentencing hearing,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0075,what specifically awaiting if awaiting trial or sentencing or revocation hearing,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0076,awaiting revocation of parole or probation,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0077,been told will serve time in prison for offense,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0078,on parole/probation/escape when arrested/charged and now serving time,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0079,reason for being held in facility (if not already answered) (upcoded),0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0080,reason for being held in facility (if not already answered) (original),0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0081,on parole/probation/escape when arrested/charged and now in prison,0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0082,routing question (offense being held for),0,part of inmate type routing; violent subset uses three inmate types,,,,,,,,,,,
+V0083,"name of offense 1 being held for (held, not awaiting trial)",0,supressed,,,,,,,,,,,
+V0084,"name of offense 2being held for (held, not awaiting trial)",0,supressed,,,,,,,,,,,
+V0085,"name of offense 3 being held for (held, not awaiting trial)",0,supressed,,,,,,,,,,,
+V0086,"name of offense 4 being held for (held, not awaiting trial)",0,supressed,,,,,,,,,,,
+V0087,"name of offense 5 being held for (held, not awaiting trial)",0,supressed,,,,,,,,,,,
+V0088,"offense NCRP code- helf, not awaiting tiral",0,inmate type not relevant,,,,,,,,,,,
+V0089,"offense NCRP code- helf, not awaiting tiral",0,inmate type not relevant,,,,,,,,,,,
+V0090,"offense NCRP code- helf, not awaiting tiral",0,inmate type not relevant,,,,,,,,,,,
+V0091,"offense NCRP code- helf, not awaiting tiral",0,inmate type not relevant,,,,,,,,,,,
+V0092,"offense NCRP code- helf, not awaiting tiral",0,inmate type not relevant,,,,,,,,,,,
+V0093,not used,0,not used,,,,,,,,,,,
+V0094, not used,0,not used,,,,,,,,,,,
+V0095,not used,0,not used,,,,,,,,,,,
+V0096,not used,0,not used,,,,,,,,,,,
+V0097,not used,0,not used,,,,,,,,,,,
+V0098,collapsed offense type- held not awaiting trial,0,inmate type not relevant,,,,,,,,,,,
+V0099,collapsed offense type- held not awaiting trial,0,inmate type not relevant,,,,,,,,,,,
+V0100,collapsed offense type- held not awaiting trial,0,inmate type not relevant,,,,,,,,,,,
+V0101,collapsed offense type- held not awaiting trial,0,inmate type not relevant,,,,,,,,,,,
+V0102,collapsed offense type- held not awaiting trial,0,inmate type not relevant,,,,,,,,,,,
+V0103,month arrested,0,inmate type not relevant,,,,,,,,,,,
+V0104,year arrested,0,inmate type not relevant,,,,,,,,,,,
+V0105,admission date,0,suppressed,,,,,,,,,,,
+V0106,admission date (day),0,suppressed,,,,,,,,,,,
+V0107,admission date (year),0,suppressed,,,,,,,,,,,
+V0108,"offense now in prison for, standard inmate",0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,filtered down to violent crimes,offense_list,Subset is filtered down to instances where offense type is violent crimes,,1
+V0109,offense name- no criminal justice status,0,suppressed,,,,,,,,,,,
+V0110,offense name- no criminal justice status,0,suppressed,,,,,,,,,,,
+V0111,offense name- no criminal justice status,0,suppressed,,,,,,,,,,,
+V0112,offense name- no criminal justice status,0,suppressed,,,,,,,,,,,
+V0113,offense name- no criminal justice status,0,suppressed,,,,,,,,,,,
+V0114,offense code- 'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1","-8,999",,0,collapse offense code (1),offense,,,1
+V0115,offense code- 'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense code (2),offense,,,1
+V0116,offense code- 'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense code (3),offense,,,1
+V0117,offense code- 'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense code (4),offense,,,1
+V0118,offense code- 'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense code (5),offense,,,1
+V0119,not used,0,not used,,,,,,,,,,,
+V0120,not used,0,not used,,,,,,,,,,,
+V0121,not used,0,not used,,,,,,,,,,,
+V0122,not used,0,not used,,,,,,,,,,,
+V0123,not used,0,not used,,,,,,,,,,,
+V0124,offense type -'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense type (1),offense,,,1
+V0125,offense type -'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense type (2),offense,,,1
+V0126,offense type -'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense type (3),offense,,,1
+V0127,offense type -'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense type (4),offense,,,1
+V0128,offense type -'standard' inmate,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse offense type (5),offense,,,1
+V0129,month arrested no criminal justice status- sentenced,0,suppressed,,,,,,,,,,,
+V0246,"parole violator- offense already serving time for, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0247,"parole violator- offense already serving time for, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0248,"parole violator- offense already serving time for, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0249,"parole violator- offense already serving time for, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0250,"parole violator- offense already serving time for, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0256,"parole violator- offense already serving time for, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0257,"parole violator- offense already serving time for, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0258,"parole violator- offense already serving time for, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0259,"parole violator- offense already serving time for, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0262,parole violator- year arrested for original offense,0,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,1,1
+V0264,parole violator- if sentenced with more offenses,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0270,"parole violator- resentenced, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0271,"parole violator- resentenced, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0272,"parole violator- resentenced, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0273,"parole violator- resentenced, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0274,"parole violator- resentenced, code",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0280,"parole violator- resentenced, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0281,"parole violator- resentenced, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0282,"parole violator- resentenced, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0283,"parole violator- resentenced, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0284,"parole violator- resentenced, type",0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0286,"parole violator, resetenced, arrest",0,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,1,1
+V0316,probation violators- offenses they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0322,probation violators- code for the offense they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0323,probation violators- code for the offense they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0324,probation violators- code for the offense they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0325,probation violators- code for the offense they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0326,probation violators- code for the offense they were on probation for,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0332,probation violators- type for 316,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0333,probation violators- type for 316,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0334,probation violators- type for 316,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0335,probation violators- type for 316,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0336,probation violators- type for 316,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0338,probation violators- year charged with offense they are on probation for,0,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,1,1
+V0340,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0346,probation violators- offense code now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0347,probation violators- offense code now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0348,probation violators- offense code now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0349,probation violators- offense code now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0350,probation violators- offense code now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0356,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0357,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0358,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0359,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0360,probation violators- offense type now charged with,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,offense,,,1
+V0362,year arrested for offense now charged with,0,,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,1,1
+V0424,How much of sentence was suspended,0,Needs to be derived,,,,,,,,,,,
+V0425,How much of sentence was suspended,0,Needs to be derived,,,,,,,,,,,
+V0426,How much of sentence was suspended,0,Needs to be derived,,,,,,,,,,,
+V0427,How much of sentence was suspended,0,Needs to be derived,,,,,,,,,,,
+V0454,Sentence include court costs/fees (original),0,Using upcoded version,,,,,,,,,,,
+V0455,Sentence include fines (original),0,Using upcoded version,,,,,,,,,,,
+V0456,Snetnece include resitution to victim (original),0,Using upcoded version,,,,,,,,,,,
+V0457,Sentence include other type of fee/payment (original),0,Using upcoded version,,,,,,,,,,,
+V0464,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0465,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0466,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0467,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0468,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0469,Does sentence include (original),0,Using upcoded version,,,,,,,,,,,
+V0470,Definite release date,0,Doesn't influence sentencing,,,,,,,,,,,
+V0471,Month of expected release,0,suppressed,,,,,,,,,,,
+V0472,Year of expected release,0,Doesn't influence sentencing,,,,,,,,,,,
+V0473,Expect every to be released,0,Doesn't influence sentencing,,,,,,,,,,,
+V0474,Month of earliest possible release,0,Doesn't influence sentencing,,,,,,,,,,,
+V0475,Year of earliest possible release,0,Doesn't influence sentencing,,,,,,,,,,,
+V0476,Expect supervision on parole/probation,0,Doesn't influence sentencing,,,,,,,,,,,
+V0477,Classify controlling offense,0,Doesn't influence sentencing,,,,,,,,,,,
+V0481,hispanic victim (single victim),0,used to derive other variables,cat_wnans,one_hot,"0,-9","-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0482,white victim (single victim). Actually has 99 as blank?,0,used to derive other variables,cat_wnans,one_hot,"0,-9","-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0483,black/african-american victim (single victim),0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0484,american indian or alaska native victim (single victim),0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0485,asian victim (single victim),0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0486,native hawaiin or pacific islander victim (single victim),0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0487,victim race dk/ref victim (single victim),0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,1,collapse victim race - privelidged or not,victim_race,,,1
+V0488,races of victim item flag (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,8,-2,-1",,,1,collapse victim race - privelidged or not,victim_race,"Feeds into victim_white, which is used to indicate if the victim(s) were in a privelidged group or not",,1
+V0489,victim sex (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse victim sex,victim_sex,,,1
+V0490,victim age (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse victim age,,,,1
+V0491,knew victim (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse knew vicim,,,,1
+V0492,how well knew victim (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse how well knew victim,victim_relationship,,,1
+V0493,relationship to victim (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,collapse relationship to victim,victim_relationship,,,1
+V0495,classify offense murder rape other (single victim),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,info contained in violent type V0069,violent_type,,,1
+V0496,"if victim was hurt (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,victim_injuries,,,1
+V0497,"died list of victim injuries (-8 and -99) (single victim, not murder or rape_",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,,,1
+V0498,"sexual/rape victim injuries ((-9,-8,99)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,31,,1
+V0499,"knife or stab wound victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,250,,1
+V0500,"gun shot or bullet wound victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,282,,1
+V0501,"broken bones victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,501,,1
+V0502,"teeth victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,6,,1
+V0503,"internal victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,7,,1
+V0504,"unconscious victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,91,,1
+V0505,"bruises victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,627,,1
+V0506,"other victim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,186,,1
+V0507,"DK/RFtim injuries ((-9,-8,99) (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,29,,1
+V0508,"item flag single victim injuries (single victim, not murder or rape)",0,used to derive other variables,cat_wnans,one_hot,"-9,-8,8",,,0,,victim_injuries,Collapsed into victim_injured column,,1
+V0521,"knife injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,7,,1
+V0522,"gun shot, bullet wound injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,18,,1
+V0523,"broken bones, teeth knocked out injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,7,,1
+V0524,"internal injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,15,,1
+V0525,"knocked unconscious (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,3,,1
+V0526,"bruises, scratches, swelling (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,56,,1
+V0527,"other injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,7,,1
+V0528,"not physically injured (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,725,,1
+V0529,"injuries DK/REF (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"-8,99",,0,,victim_injuries,20,,1
+V0530,"item flag injuries (single victim, rape)",0,used to derive other variables,cat_wnans,one_hot,,,,0,,victim_injuries,Collapsed into victim injuries column,,1
+V0541,number of victims (multiple victims),0,used to derive other variables,cont_wnans,scale,"-9,-2,-1",-8,,0,,,,,1
+V0542,victims of single or multiple incidents,0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0552,race of most victims (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,1,,victim_race,,,1
+V0553,sex of victims (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,1,,victim_sex,,,1
+V0554,majority male or female victims (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,1,,victim_sex,,,1
+V0555,how old the youngest victim was (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0556,age range of oldest victim (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,,,,1
+V0557,were the victims known or where they strangers (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,victim_relationship,,,1
+V0558,knew victims by sight only (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,victim_relationship,,,1
+V0559,knew victims as casual acquintances (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,victim_relationship,,,1
+V0560,knew victims well (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,,victim_relationship,,,1
+V0561,well known victim spouse (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim partner or ex,victim_relationship,,,1
+V0562,well known victim ex spouse (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim partner or ex,victim_relationship,,,1
+V0563,well known victim parent or step parent (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0564,well known victim own child (multiple victim),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim child,victim_relationship,,,1
+V0565,well known victim step child (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim child,victim_relationship,,,1
+V0566,well known victim sibling or step sibling (multiple victim),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0567,well known victim other relative (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0568,well known victim boyfriend/girlfriend (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0569,well known victim ex boy or girlfriend (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim partner or ex,victim_relationship,,,1
+V0570,well known victim friend or ex friend (multiple victim),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0571,well known victim other relationship (multiple victim),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0572,well known victim DK/REF relationship (multiple victims),0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim well known other,victim_relationship,,,1
+V0573,item flag relationship to well known victim (multiple victim),0,used to derive other variables,cat_wnans,one_hot,,,,0,information contained elsewhere,victim_relationship,Collapsed into victim_relationship column,,1
+V0587,violent type (multiple victims),0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,information contained in violent type V0069,violent_type V0069,,,1
+V0588,"were victims hurt (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,"-9,-2,-1",-8,,0,binary_with_na,victim_injuries,,,1
+V0589,"victim died (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries died,victim_injuries,,,1
+V0590,"rape or sexual assult injury (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries rape,victim_injuries,,,1
+V0591,"knife or stab wound ((multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries knife,victim_injuries,,,1
+V0592,"gun shot, bullet wound injuries ((multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries gun shot,victim_injuries,,,1
+V0593,"broken bone injury (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries bones,victim_injuries,,,1
+V0594,"teeth knocked out or chipped ((multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries teeth,victim_injuries,,,1
+V0595,"internal injuries (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries internal,victim_injuries,,,1
+V0596,"knocked unconscious (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries unconcious,victim_injuries,,,1
+V0597,"bruises, swelling (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries bruises,victim_injuries,,,1
+V0598,"other injuries (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries other,victim_injuries,,,1
+V0599,"DK/REF injuries (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries DK/REF,victim_injuries,,,1
+V0600,"item flag victim injuries (multiple victims, other violent offense)",0,used to derive other variables,cat_wnans,one_hot,,,,0,inforamtion contained elsewhere,victim_injuries,Collapsed into victim_injuries column,,1
+V0613,"knife or stab wound (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries knife,victim_injuries,,,1
+V0614,"gun shot bullet wound (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries gun shot,victim_injuries,,,1
+V0615,"broken bones or teeth  (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries bones,victim_injuries,,,1
+V0616,"internal injuries  (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries internal,victim_injuries,,,1
+V0617,"knocked unconscious  (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries unconcious,victim_injuries,,,1
+V0618,"bruises, swelling (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries bruises,victim_injuries,,,1
+V0619,"other injuries (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries other,victim_injuries,,,1
+V0620,"not physically injured (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries not physically injured,victim_injuries,,,1
+V0621,"DK/REF injuries (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,-9,"99,-8",,0,collapse victim injuries DK/REF,victim_injuries,,,1
+V0622,"item flag how was victim hurt/injured (multiple victims, rape)",0,used to derive other variables,cat_wnans,one_hot,,,,0,info contained elsewhere,victim_injuries,Collapsed into victim_injuries column,,1
+V0771,city/town living in at time of arrest,0,supprese,,,,,,,,,,,
+V0773,zip code living in at time of arrest,0,suppressed,,,,,,,,,,,
+V0916,Date of first admission to prison (month),0,suppressed,,,,,,,,,,,
+V0920,end criminal justice flag,0,admin variable,,,,,,,,,,,
+V0921,socieeconomic start flag,0,admin variable,,,,,,,,,,,
+V0922,if others would describe offender as hispanic,0,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,,offender_white,Collapsed into offender_white,,1
+V0924,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0925,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0926,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0927,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0928,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0929,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0930,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0931,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0932,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0933,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0934,how others would describe offenders race,0,using main offender race fields to determine race,,,,,,,,,,,
+V0938,not used,0,not used,,,,,,,,,,,
+V0939,not used,0,not used,,,,,,,,,,,
+V0941,GED in correctional facility,0,doesn't predict sentence length,,,,,,,,,,,
+V0946,First country of citizenship,0,suppressed,,,,,,,,,,,
+V0947,Second country of citizenship,0,suppressed,,,,,,,,,,,
+V0948,First country of citizenship (original),0,suppressed,,,,,,,,,,,
+V0949,Second country of citizenship (original),0,suppressed,,,,,,,,,,,
+V0964,living with spouse at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0965,living with partner at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0966,living with minor children at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0967,living with minor step children at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0968,living with own children over 18 at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0969,living with step children over 18 at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0970,living with mother/step mother at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0971,living with father/step father at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0972,living with sibling or step sibling at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0973,living with grandparents at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0974,living with grand children at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0975,living with children not related under 18 at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0976,living with other family members at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0977,living with foster family at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0978,living with friends at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0979,living with not a relative or friend at time of arrest,0,trying to keep vars down,,,,99,,,,,,,
+V0980,don't know or refuse to answer who living with at time of arrest,0,trying to keep vars down,,,,9,,,,,,,
+V0981,specify relationship to people living with flag,0,admin variable,,,,,,,,,,,
+V0982,Have children?,0,using continuous var # children instead,,,,,,,,,,,
+V0984,age of single child,0,using continuous var # children instead,,,,,,,,,,,
+V0985,age of each child #1,0,Needs to be derived,,,,,,,,,,,
+V0986,age of each child #2,0,Needs to be derived,,,,,,,,,,,
+V0987,age of each child #3,0,Needs to be derived,,,,,,,,,,,
+V0988,age of each child #4,0,Needs to be derived,,,,,,,,,,,
+V0989,age of each child #5,0,Needs to be derived,,,,,,,,,,,
+V0990,age of each child #6,0,Needs to be derived,,,,,,,,,,,
+V0991,age of each child #7,0,Needs to be derived,,,,,,,,,,,
+V0992,age of each child #8,0,Needs to be derived,,,,,,,,,,,
+V0993,age of each child #9,0,Needs to be derived,,,,,,,,,,,
+V0994,age of each child #10,0,Needs to be derived,,,,,,,,,,,
+V0995,age of each child #11,0,Needs to be derived,,,,,,,,,,,
+V0996,age of each child #12,0,Needs to be derived,,,,,,,,,,,
+V0997,age of each child #13,0,Needs to be derived,,,,,,,,,,,
+V0998,age of each child #14,0,Needs to be derived,,,,,,,,,,,
+V0999,age of each child #15,0,Needs to be derived,,,,,,,,,,,
+V1000,age of each child #16,0,Needs to be derived,,,,,,,,,,,
+V1001,age of each child #17,0,Needs to be derived,,,,,,,,,,,
+V1002,age of each child #18,0,Needs to be derived,,,,,,,,,,,
+V1003,age of each child #19,0,Needs to be derived,,,,,,,,,,,
+V1004,age of each child #20,0,Needs to be derived,,,,,,,,,,,
+V1006,variable not used,0,not used,,,,,,,,,,,
+V1007,variable not used,0,not used,,,,,,,,,,,
+V1009,how many children currently live together,0,can't predict sentence length,,,,,,,,,,,
+V1040,had in person visits with children,0,can't predict sentence length,,,,,,,,,,,
+V1041,had phone calls with children,0,can't predict sentence length,,,,,,,,,,,
+V1042,sent mailil from children,0,can't predict sentence length,,,,,,,,,,,
+V1043,received mail from children,0,can't predict sentence length,,,,,,,,,,,
+V1044,sent email to children,0,can't predict sentence length,,,,,,,,,,,
+V1045,received email from children,0,can't predict sentence length,,,,,,,,,,,
+V1046,contact with children some other way,0,can't predict sentence length,,,,,,,,,,,
+V1047,frequency of in person visits from children,0,can't predict sentence length,,,,,,,,,,,
+V1048,frequency of phone calls from children,0,can't predict sentence length,,,,,,,,,,,
+V1049,frequency of sending mail with children,0,can't predict sentence length,,,,,,,,,,,
+V1050,frequency of receiving mail from children,0,can't predict sentence length,,,,,,,,,,,
+V1051,frequency of sending email to children,0,can't predict sentence length,,,,,,,,,,,
+V1052,frequency of receiving email from children,0,can't predict sentence length,,,,,,,,,,,
+V1053,child lives too far for in person visits (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V1054,child can't visit because offender can't have visitors (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V1055,child doesn't visit because inmate doesn't want the child to them in prison (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V1056,child doesn't visit because can't afford to travel (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V1057,child doesn't visit because it would be unsafe (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V0158,child doesn't visit because doesn't want to see offender incarcerated (upcoded),0,can't predict sentence length,,,,,,,,,,,
+V0159,child doesn't visit because other parent/guardian will not allow,0,can't predict sentence length,,,,,,,,,,,
+V0160,child doesn't visit because current caregiver doesn't allow,0,can't predict sentence length,,,,,,,,,,,
+V0161,child doesn't visit because they did a televisit instead,0,can't predict sentence length,,,,,,,,,,,
+V0162,child doesn’t visit for another reason,0,can't predict sentence length,,,,,,,,,,,
+V0163,don't know/refuse to answer why child doesn't visit,0,can't predict sentence length,,,,,,,,,,,
+V0164,child visit item flag,0,admin variable,,,,,,,,,,,
+V1077,had child support agreement at time of arrest,0,trying to keep vars down,,,,,,,,,,,
+V1078,owe back child support,0,trying to keep vars down,,,,,,,,,,,
+V1079,any jobs 30 days before arrest,0,using continuous var how many jobs 30 days before arrest,,,,,,,,,,,
+V1081,full time/part time/ocasional work,0,using similar variable V0182,,,,,,,,,,,
+V1085,main occupation,0,suppressed,,,,,,,,,,,
+V1087,not employed and not looking for work before arrest (upcoded)- reason 1,0,trying to keep vars down,,,,,,,,,,,
+V1088,not employed and not looking for work before arrest (upcoded)- reason 2,0,trying to keep vars down,,,,,,,,,,,
+V1089,not employed and not looking for work before arrest (upcoded)- reason 3,0,trying to keep vars down,,,,,,,,,,,
+V1090,not employed and not looking for work before arrest (upcoded)- reason 4,0,trying to keep vars down,,,,,,,,,,,
+V1091,not employed and not looking for work before arrest (upcoded)- reason 5,0,trying to keep vars down,,,,,,,,,,,
+V1092,not employed and not looking for work before arrest (upcoded)- reason 6,0,trying to keep vars down,,,,,,,,,,,
+V1093,not employed and not looking for work before arrest (upcoded)- reason 7,0,trying to keep vars down,,,,,,,,,,,
+V1094,not employed and not looking for work before arrest (upcoded)- reason 8,0,trying to keep vars down,,,,,,,,,,,
+V1095,not employed and not looking for work before arrest (upcoded)- reason 9,0,trying to keep vars down,,,,,,,,,,,
+V1096,not employed and not looking for work before arrest (upcoded)- reason 10,0,trying to keep vars down,,,,,,,,,,,
+V1097,not employed and not looking for work before arrest (upcoded)- reason 11,0,trying to keep vars down,,,,,,,,,,,
+V1098,not employed and not looking for work before arrest (upcoded)- reason 12,0,trying to keep vars down,,,,,,,,,,,
+V1099,not employed and not looking for work before arrest (upcoded)- reason 13,0,trying to keep vars down,,,,,,,,,,,
+V1100,not employed and not looking for work before arrest (upcoded)- reason 14,0,trying to keep vars down,,,,,,,,,,,
+V1101,not employed and not looking for work before arrest (upcoded)- reason 15,0,trying to keep vars down,,,,,,,,,,,
+V1102,not employed and not looking for work before arrest (upcoded)- reason 16,0,trying to keep vars down,,,,,,,,,,,
+V1103,not employed and not looking for work before arrest (upcoded)- reason 17,0,trying to keep vars down,,,,,,,,,,,
+V1104,not employed and not looking for work before arrest (upcoded)- reason 18,0,trying to keep vars down,,,,,,,,,,,
+V1105,not employed and not looking for work before arrest (upcoded)- reason 19,0,trying to keep vars down,,,,,,,,,,,
+V1106,not employed and not looking for work before arrest (upcoded)- reason 20,0,trying to keep vars down,,,,,,,,,,,
+V1107,not employed and not looking for work before arrest (upcoded)- reason 21,0,trying to keep vars down,,,,,,,,,,,
+V1129,month of last job,0,trying to keep vars down,,,,,,,,,,,
+V1130,year of last job,0,trying to keep vars down,,,,,,,,,,,
+V1131,was last job full time/ocassional/part time,0,trying to keep vars down,,,,,,,,,,,
+V1132,"income from legal wages, salary, comission tips in 30 days before arrest",0,using range of income before arrest,cont_wnans,scale,,,,,,,,,
+V1133,income from self employment in 30 days before arrest,0,using range of income before arrest,cont_wnans,scale,,,,,,,,,
+V1134,income from social security/railroad retirement 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1135,income from supplmental security 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1136,income from public assistance/welfare 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1137,income from retirement/disability pension 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1138,income from veteran's administration 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1139,income from unemployment compensation 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1140,income from child support/alimony 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1141,incmoe from disability benefits 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1142,income from illegal activities 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1143,any other source of income 30 days before arrest,0,using range of income before arrest,,,,,,,,,,,
+V1144,total income 30 days before arrest,0,suppressed,,,,,,,,,,,
+V1177,detail of type of foster home in before 18,0,,,,,,,,,,,,
+V1177,SES end flag,0,admin var,,,,,,,,,,,
+V1951,Spanish/Hispanic Origin,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V1953,Offender race: Black/African-American,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V1954,Offender race:  American Indian/Alaska Native,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V1955,Offender race:  Asian,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V1956,Offender race:  Native Hawaiian/Pacific Islander,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V1957,Offender race:  Anything else,0,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,"Feeds into offender_white, which is used to indicate if the offender is in a privilidged group or not",,1
+V0057,offense 1 name (suppressed),0,supressed,,,,,,,,,,,
+V0390,if they spent time in jail after arrest and before prison,0,,,,,,,,,,,,
+V0391,years in jail after arrest/before prison,0,,,,,,,,,,,,
+V0392,months in jail after arrest/before prison,0,,,,,,,,,,,,
+V0393,weeks in jail after arrest/before prison,0,,,,,,,,,,,,
+V0394,days in jail after arrest/before prison,0,,,,,,,,,,,,
+V0395,was jail time applied to prison sentence,0,,,,,,,,,,,,
+V0396,years of jail time applied to prison sentence,0,,,,,,,,,,,,
+V0397,months of jail time applied to prison sentence,0,,,,,,,,,,,,
+V0398,weeks of jail time applied to prison sentence,0,,,,,,,,,,,,
+V0399,days of jail time applied to prison sentence,0,,,,,,,,,,,,
+V1169,who offender lived with before 18 (original),0,,,,,,,,,,,,
+V1174,offenders siblings oever served time,0,,,,,,,,,,,,
+V1175,offender's spouse ever served time,0,,,,,,,,,,,,
+V1176,offender's children ever served time,0,,,,,,,,,,,,
+V1178,MH begin ,0,,,,,,,,,,,,

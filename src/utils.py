@@ -7,8 +7,8 @@ Created on Sat Apr 16 13:31:58 2022
 
 import os, re
 import pickle
-
-
+import statsmodels.api as sm
+import pandas as pd
 
 def increment_savename(fdir,prefix="test_name",ext='txt'):
 
@@ -57,13 +57,14 @@ def name_and_pickle(item,fdir,prefix,ext='pkl'):
     
     return save_path
 
-'''
-alist=[0,1,2,3,4,5]
-fdir='C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/output/test/'
-prefix="a_test"
-name_and_pickle(alist,fdir,prefix)
 
-#to_open=open('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/output/test/a_test3.pkl','rb')
-#opening=pickle.load(to_open)
-#print(opening)
-'''
+def calculate_vif(data):
+    vif_df = pd.DataFrame(columns = ['Var', 'Vif'])
+    x_var_names = data.columns
+    for i in range(0, x_var_names.shape[0]):
+        y = data[x_var_names[i]]
+        x = data[x_var_names.drop([x_var_names[i]])]
+        r_squared = sm.OLS(y,x).fit().rsquared
+        vif = round(1/(1-r_squared),2)
+        vif_df.loc[i] = [x_var_names[i], vif]
+    return vif_df.sort_values(by = 'Vif', axis = 0, ascending=False, inplace=False)
