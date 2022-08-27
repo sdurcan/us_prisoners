@@ -59,7 +59,8 @@ class dataset_processor:
         #V1957- Anyting else
         
         #replace don't know and refuse responses with most common value (1:male) and make skips their own category
-        self.dataset['offender_white']=copy.deepcopy(self.dataset['V1952'].replace([-9,-2,-1,np.nan],[1,1,1,-8]))
+        #replace 2 (not white) with 0
+        self.dataset['offender_white']=copy.deepcopy(self.dataset['V1952'].replace([-9,-2,-1,np.nan,2],[1,1,1,-8,0]))
         
         self.dataset.drop(['V1951','V1953','V1954','V1955','V1957','V1952'],axis=1)
         
@@ -119,6 +120,9 @@ class dataset_processor:
         
         #drop columns because they contain the same info and we need to reduce dimensionality
         self.dataset.drop(['V0555','V0490'],inplace=True,axis=1)
+        new_config={'victim_below_18':{'enc_scale':'one_hot','description':'victim below 18','protected_characteristic':0,'include_violent_sent_predictor':1}}
+        self.update_config(new_config)
+
         
     #take a subset of the datframe with the relevant columns
     def collapse_encode_binary(self,collapser_input,negval=99):
@@ -178,7 +182,7 @@ class dataset_processor:
         #V0487- victim race dk/ref (single victim)
 
         #single victim white
-        single_victim_white=self.dataset_in['V0482'].replace([-9,-8,99],[0,0,0])
+        single_victim_white=self.dataset_in['V0482']==1
         #multiple victims mainly white
         multi_victims_white=self.dataset_in['V0552']==1
         white=pd.concat([single_victim_white,multi_victims_white],axis=1).sum(axis=1)
