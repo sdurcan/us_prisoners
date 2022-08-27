@@ -17,7 +17,7 @@ import pickle
 #violent_variables=pd.read_csv(r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/violent_variables.csv', index_col=0)
 #violent_variables=r'/config/variables_config.csv'
 
-
+'''
 def import_prisoners(path="",subset=3):
     #important to keep the empty string set to na, otherwise something goes wrong with data types, which impacts value counts and more
     if path=="":
@@ -31,7 +31,7 @@ def import_prisoners(path="",subset=3):
     subset=create_sentence_subsets(prisoners,subset=subset)
     #37692-0001-Data
     return prisoners, subset
-
+'''
 def import_starter_config(path="",subset='violent'):
     
     #violent variables
