@@ -44,7 +44,7 @@ prisoners=pd.read_csv(path,sep="\t",keep_default_na=False,na_values=[' '])
 violent=load.filter_violent_offenses_sentenced(prisoners)
 
 #to prep for passing directly to a model or aif360 by deriving, encoding, imputing and scaling
-encoded_violent_subset=prep.prep(violent,enc=1, scale=1, impute=1, years='ordinal', th=20,low_freq_code_counts=0)
+encoded_violent_subset=prep.prep(violent,enc=1, scale=1, impute=1, years='ordinal', th=25,low_freq_code_counts=0)
 
 #save prepped subset
 fdir=os.getcwd()
@@ -53,7 +53,7 @@ utils.name_and_pickle(encoded_violent_subset,fdir,prefix,ext='pkl')
 print(f'Saving {prefix} in {fdir}')
 #set and drop target column the dataset processor
 #column name is dynamic based on the threshold
-target='sentence_above_20yrs'
+target='sentence_above_25yrs'
 
 #drop the target column
 X=encoded_violent_subset.drop(labels=target,axis=1)

@@ -49,7 +49,7 @@ class dataset_processor:
         self.dataset['ctrl_count']=self.dataset['ctrl_count'].astype(str)
         
     def set_offender_race(self):
-        '''Creates binary variable victim_white'''
+        '''Creates binary variable offender_white'''
         
         #V1951-Spanish/Hispanic origin
         #V1952- White
@@ -140,8 +140,8 @@ class dataset_processor:
         #V1212- self described sex identity
         #if self described sex identity is male, put as male (1), otherwise not male (0)
         self.dataset['offender_male']=copy.deepcopy(self.dataset['V1212'])
-        self.dataset['offender_male'].replace([-9,-8,-2,-1,np.nan],[1,1,1,1,-8])
-        self.dataset.loc [self.dataset['offender_male']!=1,'offender_male']=0
+        self.dataset['offender_male'].replace([-9,-2,-1,2,3,4,np.nan],[1,1,1,-8,0,0,0])
+        #self.dataset.loc [self.dataset['offender_male']!=1,'offender_male']=0
         print('Offender male value counts')
         print(self.dataset['offender_male'].value_counts())
         #we need to add this to the config
@@ -207,9 +207,9 @@ class dataset_processor:
         
         #SINGLE VICTIM
         #replace don't know and refuse answers with most common value (male) and make skips own category
-        self.dataset['V0489']=self.dataset['V0489'].replace([-9,-2,-1,np.nan],[1,1,1,-8])
-        self.dataset['V0553']=self.dataset['V0553'].replace([-9,-2,-1,np.nan],[1,1,1,-8])
-        self.dataset['V0554']=self.dataset['V0554'].replace([-9,-2,-1,np.nan],[1,1,1,-8])
+        self.dataset['V0489']=self.dataset['V0489'].replace([-9,-2,-1,np.nan,2],[1,1,1,-8,0])
+        self.dataset['V0553']=self.dataset['V0553'].replace([-9,-2,-1,np.nan,2,3],[1,1,1,-8,0,0])
+        self.dataset['V0554']=self.dataset['V0554'].replace([-9,-2,-1,np.nan,2,3],[1,1,1,-8,0,0])
         
         #binarise as male or not male
         self.dataset.loc[ self.dataset['V0553']==1, 'victim_male']=1
