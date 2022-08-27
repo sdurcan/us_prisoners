@@ -1,5 +1,4 @@
 import os
-os.chdir('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers')
 import copy
 import pandas as pd
 from src import var_processor as vp
