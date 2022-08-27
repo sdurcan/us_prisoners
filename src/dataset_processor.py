@@ -59,7 +59,7 @@ class dataset_processor:
         #V1957- Anyting else
         
         #replace don't know and refuse responses with most common value (1:male) and make skips their own category
-        self.dataset['victim_white']=copy.deepcopy(self.dataset['V1952'].replace([-9,-2,-1,np.nan],[1,1,1,-8]))
+        self.dataset['offender_white']=copy.deepcopy(self.dataset['V1952'].replace([-9,-2,-1,np.nan],[1,1,1,-8]))
         
         self.dataset.drop(['V1951','V1953','V1954','V1955','V1957','V1952'],axis=1)
         
@@ -75,9 +75,11 @@ class dataset_processor:
         #V0927- if others would describe as Native Hawaian
         #V0928- if others would describe as something else
         self.dataset.drop(['V0923','V0924','V0925','V0926','V0927','V0928'],axis=1)
+        new_config={'offender_white':{'enc_scale':'one_hot','description':'offender white or not','protected_characteristic':1,'include_violent_sent_predictor':1}}
+        self.update_config(new_config)
         
         print('Offender race value counts')
-        print(self.dataset['victim_white'].value_counts(dropna=False))
+        print(self.dataset['offender_white'].value_counts(dropna=False))
         
     @staticmethod
     def make_one_if_any(dataset,colnames,newname):
@@ -138,6 +140,9 @@ class dataset_processor:
         self.dataset.loc [self.dataset['offender_male']!=1,'offender_male']=0
         print('Offender male value counts')
         print(self.dataset['offender_male'].value_counts())
+        #we need to add this to the config
+        new_config={'offender_male':{'enc_scale':'one_hot','description':'offender male or not male','protected_characteristic':1,'include_violent_sent_predictor':1}}
+        self.update_config(new_config)
 
     def set_protected_attr(self):
         self.set_victim_race()

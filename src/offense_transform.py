@@ -510,7 +510,8 @@ class offenses_transform():
         self.dataset['pp_low_freq_codes_sum']=self.dataset[low_freq_pp].sum(axis=0)
         self.dataset['pp_low_freq_codes_sum'].replace(np.nan,0)
         self.dataset.drop(low_freq_pp, axis=1,inplace=True)
-        self.to_keep.append('pp_low_freq_codes_sum')
+        #removing this col for now as it has a bug in it
+        #self.to_keep.append('pp_low_freq_codes_sum')
         
         high_freq_ctrl=[10.0,90.0,120.0,70.0,50.0,11.0,30.0,80.0,40.0,13.0,60.0,180.0]
         
