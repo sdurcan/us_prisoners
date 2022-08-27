@@ -140,7 +140,10 @@ class dataset_processor:
         #V1212- self described sex identity
         #if self described sex identity is male, put as male (1), otherwise not male (0)
         self.dataset['offender_male']=copy.deepcopy(self.dataset['V1212'])
-        self.dataset['offender_male'].replace([-9,-2,-1,2,3,4,np.nan],[1,1,1,-8,0,0,0])
+        #make missing values male as most common
+        self.dataset['offender_male'].replace([-9,-2,-1,np.nan],[1,1,1,-8],inplace=True)
+        #put other values as 0
+        self.dataset['offender_male'].replace([2,3,4],[0,0,0],inplace=True)
         #self.dataset.loc [self.dataset['offender_male']!=1,'offender_male']=0
         print('Offender male value counts')
         print(self.dataset['offender_male'].value_counts())
@@ -184,8 +187,11 @@ class dataset_processor:
         #single victim white
         single_victim_white=self.dataset_in['V0482']==1
         #multiple victims mainly white
+
+        #any white victims- better populated than V0552
+        multi2_victims_white=self.dataset_in['V0545']==1
         multi_victims_white=self.dataset_in['V0552']==1
-        white=pd.concat([single_victim_white,multi_victims_white],axis=1).sum(axis=1)
+        white=pd.concat([single_victim_white,multi_victims_white,multi2_victims_white],axis=1).sum(axis=1)
         white.name='victim_white'
         
         #could look at 'any victims' if needed later- for now, drop the cols
