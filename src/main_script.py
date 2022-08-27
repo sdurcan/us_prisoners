@@ -37,7 +37,7 @@ from sklearn.linear_model import Perceptron
 #demse_violent_subset=prep(th=20,inc_max_range=1,encode=0,impute=0,scale=0,ordinal_off=0)
 
 #load the dataframe from the tsv file
-path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/downloaded_package/DS0001/37692-0001-Data.tsv'
+#path='/downloaded_package/DS0001/37692-0001-Data.tsv'
 prisoners=pd.read_csv(path,sep="\t",keep_default_na=False,na_values=[' '])
 
 #pass the full dataframe to a filter function that keeps instances with inmate types 3,11,8 and controlling offense violent
@@ -57,6 +57,8 @@ target='sentence_above_20yrs'
 
 #drop the target column
 X=encoded_violent_subset.drop(labels=target,axis=1)
+#this column has a bug in it meaning all values are nan
+X.drop('pp_low_freq_codes_sum',axis=1,inplace=True)
 y=copy.deepcopy(encoded_violent_subset[target])
 
 #split into test and training data

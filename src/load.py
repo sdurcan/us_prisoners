@@ -11,14 +11,15 @@ import pickle
 
 
 #import survey of prison inmates
-#important to keep the empty string set to na, otherwise something goes wrong with data types, which impacts value counts and more
-prisoners=pd.read_csv(r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/downloaded_package/DS0001/37692-0001-Data.tsv',sep="\t",keep_default_na=False,na_values=[' '])
+
+#prisoners=pd.read_csv(r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/downloaded_package/DS0001/37692-0001-Data.tsv',sep="\t",keep_default_na=False,na_values=[' '])
 #import variables config
 #violent_variables=pd.read_csv(r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/data/violent_variables.csv', index_col=0)
-violent_variables=r'/config/variables_config.csv'
+#violent_variables=r'/config/variables_config.csv'
 
 
 def import_prisoners(path="",subset=3):
+    #important to keep the empty string set to na, otherwise something goes wrong with data types, which impacts value counts and more
     if path=="":
         path=r'C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers/downloaded_package/DS0001/37692-0001-Data.tsv'
     

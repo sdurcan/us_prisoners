@@ -89,7 +89,9 @@ class sentence_transformer:
     def __init__(self, dp, th, inc_max_range=0, impute=0):
         
         self.dp=dp
+        print('type is', type(dp))
         self.dataset=copy.deepcopy(self.dp.dataset)
+        print('type is', type(self.dataset))
         #take column list at instantiation to diff later
         self.orig_cols = self.dataset.columns
         self.impute=impute

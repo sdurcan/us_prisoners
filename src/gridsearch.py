@@ -108,7 +108,7 @@ parameters={'classifier__max_depth':[5,10,20,30],
 
 grid = GridSearchCV(pipe, parameters, cv=5,verbose=2,n_jobs=8).fit(X, y)
 result_df = pd.DataFrame.from_dict(grid.cv_results_, orient='columns')
-result_df.to_csv('logisticregression_round4')
+result_df.to_csv('logisticregression_with_sesvars.csv')
 print(grid.best_estimator_)
 print(grid.best_score_)
 
