@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 print(os.getcwd())
-os.chdir('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers')
+#os.chdir('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers')
 print(os.getcwd())
 
 import src.load as load
@@ -37,7 +37,7 @@ from sklearn.linear_model import Perceptron
 #demse_violent_subset=prep(th=20,inc_max_range=1,encode=0,impute=0,scale=0,ordinal_off=0)
 
 #load the dataframe from the tsv file
-path=r'/src/downloaded_package/DS0001/37692-0001-Data.tsv'
+path=r'downloaded_package/DS0001/37692-0001-Data.tsv'
 prisoners=pd.read_csv(path,sep="\t",keep_default_na=False,na_values=[' '])
 
 #pass the full dataframe to a filter function that keeps instances with inmate types 3,11,8 and controlling offense violent

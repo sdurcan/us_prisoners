@@ -5,7 +5,7 @@ Created on Sat Jun 11 13:49:34 2022
 @author: siobh
 """
 import os
-os.chdir('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers')
+#os.chdir('C:/Users/siobh/OneDrive/Masters/Dissertation/us_prisonsers')
 from src import load
 import pandas as pd
 import numpy as np
@@ -26,7 +26,6 @@ class offenses_transform():
         self.dp=dp
         self.load_inputs()
         self.transform()
-
         
         #TODO: put these back as static variables
         sentence_transform.sentence_transformer.drop(self)
