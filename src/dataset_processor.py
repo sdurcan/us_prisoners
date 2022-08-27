@@ -116,11 +116,11 @@ class dataset_processor:
         #V0555- 1 is under 12 years,2 is 12 to 17. 661 values where one of these is true. 232 where no answer has been given
         #V0490- victim age for single victim. 1 and 2. 1784 where this is true 284 dk/ref
         #collapse these columns to indicate if any victim was child
-        self.dataset.loc[ ( (self.dataset['V0555']==1) | (self.dataset['V0490']==1)), 'victim_below_18']=1
+        self.dataset.loc[ ( (self.dataset['V0555']==1) | (self.dataset['V0490']==1)), 'victim_below_12']=1
         
         #drop columns because they contain the same info and we need to reduce dimensionality
         self.dataset.drop(['V0555','V0490'],inplace=True,axis=1)
-        new_config={'victim_below_18':{'enc_scale':'one_hot','description':'victim below 18','protected_characteristic':0,'include_violent_sent_predictor':1}}
+        new_config={'victim_below_12':{'enc_scale':'one_hot','description':'victim below 12','protected_characteristic':0,'include_violent_sent_predictor':1}}
         self.update_config(new_config)
 
         
