@@ -99,8 +99,8 @@ V1083,were any part time work,0,using number of jobs 30 days before arrest,,,,,,
 V1084,were any ocassional work,0,using number of jobs 30 days before arrest,,,,,,,,,,,
 V1086,looking for work 30 days before arrest,0,using number of jobs 30 days before arrest,,,,,,,,,,,
 V1145,range of income for 30 days before arrest,1,,cont_wnans,ordinal,,,,,,,,,
-V1146,proportion of income from illegal activity before arrest,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
-V1147,do they provide half or more of the financial support for the household?,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1146,do they provide half or more of the financial support for the household?,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
+V1147,proportion of income from illegal activity before arrest,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
 V1165,homeless before 18,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,,,,,,
 V1200,Hospitalised 12 months before arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
 V1201,Taking a prescribed medication at time of arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
@@ -108,11 +108,11 @@ V1252,Age first started smoking regularly,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,
 V1208,height (feet),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,sentence_length,,,,1
 V1209,height (inches),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
 V1210,weight (pounds),1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
-V1211,sex assigned at birth,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
-V1212,self-described sex identity,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse into cis hetero or not,,,,1
+V1211,sex assigned at birth,0,derived elsewhere,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V1212,self-described sex identity,0,derived elsewhere,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse into cis hetero or not,,,,1
 V1213,sexual orientation,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,collapse into cis hetero or not,,,,1
 V1326,under drugs at time of arrest,1,,cont_wnans,scale,"-9,-2,-1",-8,,,,,,,
-V1952,White,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,,,1
+V1952,White,0,derived elsewhere,cat_wnans,one_hot,"-9, -2,-1",-8,,1,race- privilidged or not,offender_white,,,1
 V0775,where controlling offense took place (with victim) (original),0,needs to be combined with no victim,,,,,,,,,,,
 V0777,where controlling offense took place (no victim),0,needs to be combined with victim,,,,,,,,,,,
 V0937,ever received a GED,0,doesn't predict sentence length; could have received in prison,,,,,,,,,,,
@@ -122,8 +122,7 @@ V1170,welfare/public assistance before 18,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,
 V1171,lived in public housing before 18,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
 V1172,father ever been sentenced or serve time,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
 V1173,offenders month ever served time,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
-,Regularity of smoking 30 days before arrest,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
-V1264,age first drank an alcoholic beverage,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
+V1264,age first drank an alcoholic beverage,1,,cont_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
 V1267,drinking at time of offense,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
 V1268,spent time binge drinking in 12 months before admission,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
 V1138,in a facility 12 months prior to admission,1,,cat_wnans,one_hot,"-9, -2,-1",-8,,,,,,,
