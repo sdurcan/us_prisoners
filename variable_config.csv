@@ -76,7 +76,7 @@ V0942,ADD,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
 V0943,dyslexic,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
 V0944,Ever enrolled in special ed,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
 V0945,Born in US or other country,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
-V0950,also a US citizen,1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
+V0950,also a US citizen (if US not country of citizenship),1,,cat_wnans,one_hot,"-9,-2,-1",-8,,1,binary_with_na,,,,1
 V0951,#years lived in US,1,,cont_wnans,scale,"-9,-2,-1",-8,,1,,,,,1
 V0952,where living 30 days before arrest answer 1,0,trying to keep vars down,,,,,,,,,,,
 V0953,where living 30 days before arrest answer 2,0,trying to keep vars down,,,,,,,,,,,

@@ -24,3 +24,11 @@ fig.tight_layout()
 
 violent[['V0482','V0552','V0545']].head(10)
 encoded_violent_subset['victim_white-x0_1'].head(10)
+
+to_plot=['V0945-x0_1.0','V0944-x0_1.0','V0943-x0_1.0','V0942-x0_1.0','V1213-x0_2.0']
+
+18-24: 2969, 25-34: 2614, 35-44: 2097, 45-54: 1142, 55-64: 402
+
+Never Married: 5968, Divorced: 2137, Married: 1292, Separated: 436,  Widowed: 404, 
+
+,'RV0002'
