@@ -299,7 +299,7 @@ clf.fit(X_train_new,y_train)
 from sklearn import tree
 plot.figure(dpi=200, figsize=(40,40))
 tree.plot_tree(clf, filled=True, feature_names=X_train_new.columns,class_names=['below','above'])
-plot.savefig('best_dtree_plot_after_off_count')
+plot.savefig('best_chi2_dtree')
 plot.show()
 
 dtree_scores=clf.feature_importances_

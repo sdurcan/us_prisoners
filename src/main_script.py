@@ -46,7 +46,8 @@ from matplotlib import pyplot as plt
 #demse_violent_subset=prep(th=20,inc_max_range=1,encode=0,impute=0,scale=0,ordinal_off=0)
 
 #load the dataframe from the tsv file
-path=r'downloaded_package/DS0001/37692-0001-Data.tsv'
+#change path to location of downloaded DS0001/37692-0001-Data.tsv
+path=r'/DS0001/37692-0001-Data.tsv'
 prisoners=pd.read_csv(path,sep="\t",keep_default_na=False,na_values=[' '])
 
 #pass the full dataframe to a filter function that keeps instances with inmate types 3,11,8 and controlling offense violent
@@ -55,6 +56,7 @@ violent=load.filter_violent_offenses_sentenced(prisoners)
 #to prep for passing directly to a model or aif360 by deriving, encoding, imputing and scaling
 encoded_violent_subset=prep.prep(violent,enc=1, scale=1, impute=1, years='ordinal', th=25,low_freq_code_counts=0)
 
+'''
 #save prepped subset
 fdir=os.getcwd()
 prefix='encoded_violent_subset'
@@ -72,6 +74,7 @@ y=copy.deepcopy(encoded_violent_subset[target])
 
 #split into test and training data
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, random_state=25)
+
 
 #Decision tree with Kbest
 pipe=Pipeline([('selector',SelectKBest()),('classifier',DecisionTreeClassifier())])
@@ -97,7 +100,7 @@ grid = GridSearchCV(pipe, parameters, cv=5,verbose=3,n_jobs=8,refit=False).fit(X
 result_df = pd.DataFrame.from_dict(grid.cv_results_, orient='columns')
 result_df.to_csv('gridsearchresults.csv')
 
-
+'''
 
 
 
